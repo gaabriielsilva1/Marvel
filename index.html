@@ -286,14 +286,13 @@
 
             const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
-            // Bloquear o scroll da página (body) quando o menu mobile abrir
+            // Bloquear scroll quando o menu estiver aberto
             React.useEffect(() => {
                 if (isMobileMenuOpen) {
                     document.body.style.overflow = 'hidden';
                 } else {
                     document.body.style.overflow = 'auto';
                 }
-                // Cleanup para restaurar o scroll caso o componente desmonte
                 return () => {
                     document.body.style.overflow = 'auto';
                 };
@@ -394,7 +393,7 @@
 
             return (
                 <>
-                    {/* Botão Flutuante do Menu Mobile com Toggle (Abre e Fecha) e Z-Index super alto */}
+                    {/* Botão Flutuante */}
                     <button
                         onClick={() => setIsMobileMenuOpen(prev => !prev)}
                         className={`fixed bottom-6 right-6 z-[70] lg:hidden bg-[#0c0f17]/95 border p-4 rounded-full shadow-[0_4px_20px_rgba(0,210,255,0.4)] backdrop-blur-md transition-all duration-300
@@ -405,11 +404,11 @@
                         {isMobileMenuOpen ? <Icons.Close /> : <Icons.Menu />}
                     </button>
 
-                    {/* Container Principal da Aplicação */}
-                    <div className="w-full px-4 md:px-8 py-6 animate-fade-in relative z-10">
+                    {/* Container Principal - REMOVIDO o "animate-fade-in" daqui para não quebrar o layout Fixed no Mobile */}
+                    <div className="w-full px-4 md:px-8 py-6 relative z-10">
 
-                        {/* Cabeçalho Minimalista com Barra de Progresso Integrada */}
-                        <header className="mb-8 text-center glass-panel pt-8 pb-10 px-4 rounded-none relative overflow-hidden w-full border-b border-white/10">
+                        {/* Cabeçalho - ADICIONADO "animate-fade-in" isoladamente */}
+                        <header className="animate-fade-in mb-8 text-center glass-panel pt-8 pb-10 px-4 rounded-none relative overflow-hidden w-full border-b border-white/10">
                             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-mcuRed to-transparent"></div>
                             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-500 drop-shadow-lg mt-4 lg:mt-0">
                                 MCU <span className="text-transparent bg-clip-text bg-gradient-to-r from-mcuRed to-red-800 text-glow-red">Checklist</span>
@@ -432,27 +431,23 @@
                             </div>
                         </header>
 
-                        {/* 4. Backdrop (Fundo Escurecido) */}
+                        {/* Backdrop - AGORA funciona perfeitamente pois não sofre interferência do transform no parent */}
                         <div
                             className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 lg:hidden ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                             onClick={() => setIsMobileMenuOpen(false)}
                         ></div>
 
-                        {/* Layout Reto de Lado a Lado */}
                         <div className="flex flex-col lg:flex-row gap-8 items-start w-full relative">
 
-                            {/* Menu Lateral transformado em Drawer fixo na Viewport para o Mobile */}
+                            {/* Menu Lateral - ADICIONADO lg:animate-fade-in (Apenas animação no desktop para não quebrar o layout) */}
                             <aside className={`
-                                fixed top-0 left-0 z-50 w-[80%] sm:w-80 h-[100dvh] overflow-y-auto bg-[#03050a] border-r border-white/10 shadow-2xl
+                                lg:animate-fade-in fixed top-0 left-0 z-50 w-[80%] sm:w-80 h-[100dvh] overflow-y-auto bg-[#03050a] border-r border-white/10 shadow-2xl
                                 transform transition-transform duration-300 ease-in-out
                                 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
                                 lg:relative lg:translate-x-0 lg:w-80 lg:h-auto lg:overflow-visible lg:bg-transparent lg:border-none lg:shadow-none lg:z-20 flex-shrink-0 lg:sticky lg:top-8
                             `}>
 
-                                {/* Bloco de Filtros com espaçamento superior extra no mobile para compensar a falta do botão de fechar */}
                                 <div className="glass-panel p-6 rounded-none lg:border border-white/5 flex flex-col gap-6 mx-4 lg:mx-0 mt-8 mb-6 lg:mt-0 lg:mb-0">
-
-                                    {/* Área de Filtro por Mídia */}
                                     <div>
                                         <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">FILTRAR POR MÍDIA</h3>
                                         <div className="flex flex-row flex-wrap lg:flex-nowrap items-center gap-2.5">
@@ -476,10 +471,9 @@
 
                                     <div className="w-full h-px bg-white/5"></div>
 
-                                    {/* Linha do Tempo Minimalista */}
                                     <div>
                                         <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Linha do Tempo</h3>
-                                        <div className="flex flex-col gap-2 pb-24 lg:pb-0"> {/* padding inferior para não ficar embaixo do FAB no mobile */}
+                                        <div className="flex flex-col gap-2 pb-24 lg:pb-0">
                                             <button
                                                 onClick={() => handlePhaseClick('Todas')}
                                                 className={`w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border text-left
@@ -517,8 +511,8 @@
                                 </div>
                             </aside>
 
-                            {/* Conteúdo Principal Reto e Minimalista */}
-                            <main className="flex-1 w-full space-y-10">
+                            {/* Conteúdo Principal - ADICIONADO "animate-fade-in" isoladamente */}
+                            <main className="animate-fade-in flex-1 w-full space-y-10">
                                 {Object.keys(phases).length === 0 ? (
                                     <div className="text-center py-12 glass-panel rounded-none border border-white/5 w-full">
                                         <p className="text-gray-400 font-scifi tracking-wider text-lg">Nenhum título encontrado com os filtros aplicados.</p>
