@@ -269,13 +269,11 @@
             });
 
             const [expandedItems, setExpandedItems] = React.useState({});
-
-            // NOVO: Estado para controlar a expansão das Fases
             const [expandedPhases, setExpandedPhases] = React.useState(() => {
                 const initialState = {};
                 const todasAsFases = ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5', 'Fase 6'];
                 todasAsFases.forEach(p => {
-                    initialState[p] = true; // Por padrão, abrimos todas ao iniciar
+                    initialState[p] = true;
                 });
                 return initialState;
             });
@@ -308,7 +306,6 @@
                 }));
             };
 
-            // NOVO: Função para alternar expansão do bloco da Fase
             const togglePhaseExpand = (phaseName) => {
                 setExpandedPhases(prev => ({
                     ...prev,
@@ -352,6 +349,7 @@
                 setSelectedPhase(phaseName);
                 if (phaseName !== 'Todas') {
                     const el = document.getElementById(`section-${phaseName.replace(/\s+/g, '-').toLowerCase()}`);
+                    // Margem extra no scroll para compensar eventuais menus sticky em celulares
                     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             };
@@ -376,16 +374,17 @@
             const allPhasesList = ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5', 'Fase 6'];
 
             return (
-                <div className="w-full px-4 md:px-8 py-6 animate-fade-in relative z-10">
+                <div className="w-full px-3 sm:px-4 md:px-8 py-6 animate-fade-in relative z-10">
 
-                    {/* Cabeçalho Minimalista com Barra de Progresso Integrada */}
-                    <header className="mb-8 text-center glass-panel pt-8 pb-10 px-4 rounded-none relative overflow-hidden w-full border-b border-white/10">
+                    {/* Cabeçalho Otimizado */}
+                    <header className="mb-6 md:mb-8 text-center glass-panel pt-6 pb-8 md:pt-8 md:pb-10 px-4 rounded-none relative overflow-hidden w-full border-b border-white/10">
                         <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-mcuRed to-transparent"></div>
-                        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-500 drop-shadow-lg">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-500 drop-shadow-lg">
                             MCU <span className="text-transparent bg-clip-text bg-gradient-to-r from-mcuRed to-red-800 text-glow-red">Checklist</span>
                         </h1>
 
-                        <div className="w-full max-w-4xl mx-auto mt-8 px-2">
+                        {/* Progress Bar com Safe Margin no Mobile */}
+                        <div className="w-full max-w-4xl mx-auto mt-6 md:mt-8 px-4">
                             <div className="flex justify-between items-end mb-2 px-1">
                                 <span className="text-xs font-bold tracking-widest text-arcBlue uppercase">{progress}% Sincronizado</span>
                                 <span className="text-xs text-gray-400 font-scifi tracking-widest uppercase">{watchedCount} / {total} Registros</span>
@@ -402,24 +401,21 @@
                         </div>
                     </header>
 
-                    {/* Layout Reto de Lado a Lado */}
-                    <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
+                    <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start w-full">
 
-                        {/* Sidebar Funcional Minimalista */}
-                        <aside className="w-full lg:w-80 flex-shrink-0 sticky top-8 z-20 space-y-6">
+                        {/* Sidebar Reformulada para Mobile (Horizontal) e Desktop (Vertical) */}
+                        <aside className="w-full lg:w-80 flex-shrink-0 lg:sticky lg:top-8 z-20 space-y-4 lg:space-y-6">
+                            <div className="glass-panel p-4 lg:p-6 rounded-none border border-white/5 flex flex-col gap-4 lg:gap-6">
 
-                            {/* Bloco de Filtros */}
-                            <div className="glass-panel p-6 rounded-none border border-white/5 flex flex-col gap-6">
-
-                                {/* Área de Filtro por Mídia */}
-                                <div>
+                                {/* Filtro por Mídia - Horizontal Scroll no Mobile */}
+                                <div className="w-full overflow-hidden">
                                     <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">FILTRAR POR MÍDIA</h3>
-                                    <div className="flex flex-row items-center gap-2.5">
+                                    <div className="flex flex-row lg:flex-wrap items-center gap-2.5 overflow-x-auto whitespace-nowrap pb-2 lg:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                                         {['Todos', 'Filmes', 'Séries'].map(f => (
                                             <button
                                                 key={f}
                                                 onClick={() => setTypeFilter(f)}
-                                                className={`px-5 py-2 text-sm font-semibold tracking-wide transition-all duration-200 rounded-2xl border ${typeFilter === f
+                                                className={`flex-shrink-0 px-5 py-2 text-sm font-semibold tracking-wide transition-all duration-200 rounded-2xl border ${typeFilter === f
                                                     ? 'bg-arcBlue/10 border-arcBlue text-arcBlue shadow-[0_0_12px_rgba(0,210,255,0.3)]'
                                                     : 'bg-[#0c0f17] border-transparent text-gray-300 hover:text-white hover:bg-white/10'
                                                     }`}
@@ -430,16 +426,16 @@
                                     </div>
                                 </div>
 
-                                <div className="w-full h-px bg-white/5"></div>
+                                <div className="w-full h-px bg-white/5 hidden lg:block"></div>
 
-                                {/* Linha do Tempo Minimalista */}
-                                <div>
+                                {/* Linha do Tempo - Horizontal Scroll no Mobile */}
+                                <div className="w-full overflow-hidden">
                                     <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Linha do Tempo</h3>
-                                    <div className="flex flex-col gap-2">
+                                    <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto whitespace-nowrap pb-2 lg:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                                         <button
                                             onClick={() => handlePhaseClick('Todas')}
-                                            className={`w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border text-left
-                                                ${selectedPhase === 'Todas'
+                                            className={`flex-shrink-0 lg:w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border text-left
+                                        ${selectedPhase === 'Todas'
                                                     ? 'bg-mcuRed/20 border-mcuRed text-white shadow-[0_0_12px_rgba(226,54,54,0.4)]'
                                                     : 'bg-black/30 border-white/5 text-gray-400 hover:text-white hover:border-white/20'
                                                 }`}
@@ -455,8 +451,8 @@
                                                 <button
                                                     key={p}
                                                     onClick={() => handlePhaseClick(p)}
-                                                    className={`w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border flex justify-between items-center
-                                                        ${selectedPhase === p
+                                                    className={`flex-shrink-0 lg:w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border flex gap-3 lg:justify-between items-center
+                                                ${selectedPhase === p
                                                             ? 'bg-arcBlue/20 border-arcBlue text-arcBlue shadow-[0_0_12px_rgba(0,210,255,0.4)]'
                                                             : isComplete
                                                                 ? 'bg-infinityGold/10 border-infinityGold/40 text-infinityGold hover:border-infinityGold'
@@ -473,8 +469,8 @@
                             </div>
                         </aside>
 
-                        {/* Conteúdo Principal Reto e Minimalista */}
-                        <main className="flex-1 w-full space-y-10">
+                        {/* Main Content com Padding Extra Inferior no Mobile */}
+                        <main className="flex-1 w-full space-y-8 lg:space-y-10 pb-24 lg:pb-0">
                             {Object.keys(phases).length === 0 ? (
                                 <div className="text-center py-12 glass-panel rounded-none border border-white/5 w-full">
                                     <p className="text-gray-400 font-scifi tracking-wider text-lg">Nenhum título encontrado com os filtros aplicados.</p>
@@ -488,69 +484,67 @@
                                         <section
                                             key={phase}
                                             id={sectionId}
-                                            className={`w-full p-6 md:p-8 rounded-none border border-white/5 transition-all duration-500 slide-up scroll-mt-6
-                                                ${isPhaseComplete ? 'phase-complete bg-gray-900/40 glass-panel' : 'glass-panel'}
-                                            `}
+                                            className={`w-full p-4 sm:p-6 md:p-8 rounded-none border border-white/5 transition-all duration-500 slide-up scroll-mt-24 lg:scroll-mt-6
+                                        ${isPhaseComplete ? 'phase-complete bg-gray-900/40 glass-panel' : 'glass-panel'}
+                                    `}
                                             style={{ animationDelay: `${phaseIndex * 0.05}s` }}
                                         >
-                                            {/* NOVO: Cabeçalho da Fase ajustado para Collapse/Expand */}
+                                            {/* Cabeçalho da Fase ajustado para não encavalar no mobile */}
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 border-b border-white/5 pb-4 gap-4">
 
-                                                {/* Área Clicável: Título + Tag + Seta */}
                                                 <div
                                                     onClick={() => togglePhaseExpand(phase)}
-                                                    className="flex items-center gap-4 cursor-pointer group w-full sm:w-auto select-none"
+                                                    className="flex items-center gap-3 sm:gap-4 cursor-pointer group w-full sm:w-auto select-none"
                                                 >
-                                                    <h2 className={`text-2xl md:text-3xl font-black uppercase tracking-wider flex items-center gap-4 transition-colors duration-300
-                                                        ${isPhaseComplete ? 'text-transparent bg-clip-text bg-gradient-to-r from-infinityGold to-infinityPurple text-glow' : 'text-white group-hover:text-mcuRed'}
-                                                    `}>
-                                                        <span className={`w-2 h-8 rounded-none inline-block ${isPhaseComplete ? 'bg-gradient-to-b from-infinityGold to-infinityPurple shadow-[0_0_10px_#ffd700]' : 'bg-mcuRed'}`}></span>
+                                                    <h2 className={`text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-wider flex items-center gap-3 sm:gap-4 transition-colors duration-300
+                                                ${isPhaseComplete ? 'text-transparent bg-clip-text bg-gradient-to-r from-infinityGold to-infinityPurple text-glow' : 'text-white group-hover:text-mcuRed'}
+                                            `}>
+                                                        <span className={`w-1.5 sm:w-2 h-6 sm:h-8 rounded-none inline-block ${isPhaseComplete ? 'bg-gradient-to-b from-infinityGold to-infinityPurple shadow-[0_0_10px_#ffd700]' : 'bg-mcuRed'}`}></span>
                                                         {phase}
 
                                                         {isPhaseComplete && (
-                                                            <span className="px-3 py-1 bg-infinityGold/20 border border-infinityGold/50 text-infinityGold text-xs font-bold rounded-none uppercase tracking-widest animate-pulse ml-2">
+                                                            <span className="px-2 py-1 bg-infinityGold/20 border border-infinityGold/50 text-infinityGold text-[10px] sm:text-xs font-bold rounded-none uppercase tracking-widest animate-pulse ml-1 sm:ml-2">
                                                                 Concluída
                                                             </span>
                                                         )}
                                                     </h2>
 
-                                                    {/* Botão de Chevron Animado (Seta) */}
                                                     <button
-                                                        className={`flex-shrink-0 text-gray-400 group-hover:text-white transition-all duration-300 transform
-                                                            ${expandedPhases[phase] ? 'rotate-180 text-arcBlue drop-shadow-[0_0_8px_rgba(0,210,255,0.6)]' : ''}
-                                                        `}
+                                                        className={`flex-shrink-0 p-2 text-gray-400 group-hover:text-white transition-all duration-300 transform
+                                                    ${expandedPhases[phase] ? 'rotate-180 text-arcBlue drop-shadow-[0_0_8px_rgba(0,210,255,0.6)]' : ''}
+                                                `}
                                                     >
                                                         <Icons.ChevronDown />
                                                     </button>
                                                 </div>
 
-                                                {/* Botões de Ação */}
-                                                <div className="flex items-center gap-2 w-full sm:w-auto relative z-10">
+                                                {/* Botões ocupando largura total (flex-1) em celular */}
+                                                <div className="flex w-full sm:w-auto items-center gap-2 relative z-10">
                                                     <button
                                                         onClick={(e) => {
-                                                            e.stopPropagation(); // Impede que a aba feche ao clicar no botão
+                                                            e.stopPropagation();
                                                             selectAllPhase(items);
                                                         }}
-                                                        className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-arcBlue text-gray-300 hover:text-arcBlue text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
+                                                        className="flex-1 sm:flex-none px-3 py-2.5 sm:py-2 bg-black/40 border border-white/10 hover:border-arcBlue text-gray-300 hover:text-arcBlue text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
                                                     >
                                                         Marcar Tudo
                                                     </button>
                                                     <button
                                                         onClick={(e) => {
-                                                            e.stopPropagation(); // Impede que a aba feche ao clicar no botão
+                                                            e.stopPropagation();
                                                             deselectAllPhase(items);
                                                         }}
-                                                        className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-mcuRed text-gray-300 hover:text-mcuRed text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
+                                                        className="flex-1 sm:flex-none px-3 py-2.5 sm:py-2 bg-black/40 border border-white/10 hover:border-mcuRed text-gray-300 hover:text-mcuRed text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
                                                     >
                                                         Desmarcar
                                                     </button>
                                                 </div>
                                             </div>
 
-                                            {/* Container Expansível com Animação Suave */}
+                                            {/* Itens do Grid */}
                                             <div className={`grid transition-[grid-template-rows,opacity,margin] duration-500 ease-in-out w-full
-                                                ${expandedPhases[phase] ? 'grid-rows-[1fr] opacity-100 mt-6' : 'grid-rows-[0fr] opacity-0 mt-0'}
-                                            `}>
+                                        ${expandedPhases[phase] ? 'grid-rows-[1fr] opacity-100 mt-6' : 'grid-rows-[0fr] opacity-0 mt-0'}
+                                    `}>
                                                 <div className="overflow-hidden min-h-0">
                                                     <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 gap-4 items-start pt-1">
                                                         {items.map(item => {
@@ -562,19 +556,19 @@
                                                             return (
                                                                 <div
                                                                     key={item.id}
-                                                                    className={`glass-card flex flex-col p-5 rounded-none relative overflow-hidden group border border-white/5 h-fit
-                                                                        ${isWatched ? 'neon-active' : ''}
-                                                                    `}
+                                                                    className={`glass-card flex flex-col p-4 sm:p-5 rounded-none relative overflow-hidden group border border-white/5 h-fit
+                                                                ${isWatched ? 'neon-active' : ''}
+                                                            `}
                                                                 >
                                                                     <div className={`absolute -right-10 -top-10 w-32 h-32 bg-arcBlue/10 blur-3xl rounded-none transition-opacity duration-500 ${isWatched ? 'opacity-100' : 'opacity-0'}`}></div>
 
                                                                     <div
                                                                         onClick={() => toggleWatch(item.id)}
-                                                                        className="cursor-pointer flex items-start gap-4 relative z-10 w-full"
+                                                                        className="cursor-pointer flex items-start gap-3 sm:gap-4 relative z-10 w-full"
                                                                     >
                                                                         <div
                                                                             className={`mt-1 flex-shrink-0 w-6 h-6 rounded-none flex items-center justify-center border transition-all duration-300 group-hover:scale-110
-                                                                            ${isWatched
+                                                                    ${isWatched
                                                                                     ? 'bg-arcBlue border-arcBlue text-space shadow-[0_0_10px_rgba(0,210,255,0.8)]'
                                                                                     : 'border-gray-600 group-hover:border-mcuRed text-transparent'
                                                                                 }`}
@@ -582,10 +576,10 @@
                                                                             <Icons.Check />
                                                                         </div>
 
-                                                                        <div className="flex-1 pr-2">
-                                                                            <h3 className={`font-bold text-base leading-snug mb-2 transition-colors duration-300
-                                                                                ${isWatched ? 'text-white text-glow-blue' : 'text-gray-200 group-hover:text-mcuRed'}
-                                                                            `}>
+                                                                        <div className="flex-1 pr-1">
+                                                                            <h3 className={`font-bold text-sm sm:text-base leading-snug mb-2 transition-colors duration-300
+                                                                        ${isWatched ? 'text-white text-glow-blue' : 'text-gray-200 group-hover:text-mcuRed'}
+                                                                    `}>
                                                                                 {item.title}
                                                                             </h3>
                                                                             <div className="flex flex-wrap gap-2 text-xs font-medium">
@@ -593,30 +587,31 @@
                                                                                     {item.year}
                                                                                 </span>
                                                                                 <span className={`flex items-center px-2 py-0.5 rounded-none border border-white/5 text-xs
-                                                                                    ${isFilme ? 'bg-mcuRed/10 text-red-300' : 'bg-blue-900/30 text-blue-300'}
-                                                                                `}>
+                                                                            ${isFilme ? 'bg-mcuRed/10 text-red-300' : 'bg-blue-900/30 text-blue-300'}
+                                                                        `}>
                                                                                     {isFilme ? <Icons.Film /> : <Icons.TV />}
                                                                                     {item.type}
                                                                                 </span>
                                                                             </div>
                                                                         </div>
 
+                                                                        {/* Área de Toque ampliada para o botão de Chevron no Celular */}
                                                                         <button
                                                                             onClick={(e) => {
                                                                                 e.stopPropagation();
                                                                                 toggleExpand(item.id);
                                                                             }}
-                                                                            className={`flex-shrink-0 p-1 text-gray-400 hover:text-white transition-all duration-300 transform self-start mt-0.5
-                                                                                ${isExpanded ? 'rotate-180 text-arcBlue drop-shadow-[0_0_8px_rgba(0,210,255,0.6)]' : ''}
-                                                                            `}
+                                                                            className={`flex-shrink-0 p-3 -mr-2 -mt-2 text-gray-400 hover:text-white transition-all duration-300 transform self-start
+                                                                        ${isExpanded ? 'rotate-180 text-arcBlue drop-shadow-[0_0_8px_rgba(0,210,255,0.6)]' : ''}
+                                                                    `}
                                                                         >
                                                                             <Icons.ChevronDown />
                                                                         </button>
                                                                     </div>
 
                                                                     <div className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out w-full
-                                                                        ${isExpanded ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0 mt-0'}
-                                                                    `}>
+                                                                ${isExpanded ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0 mt-0'}
+                                                            `}>
                                                                         <div className="overflow-hidden min-h-0">
                                                                             <div className="pt-3 border-t border-white/5 flex flex-col gap-3 relative z-10">
                                                                                 <div className="flex justify-between items-center bg-black/40 p-2 rounded-none border border-white/5">
@@ -625,12 +620,12 @@
                                                                                             <button
                                                                                                 key={star}
                                                                                                 onClick={() => updateDetails(item.id, 'rating', itemData.rating === star ? 0 : star)}
-                                                                                                className={`text-xl focus:outline-none transition-all duration-200 hover:scale-110
-                                                                                                    ${(itemData.rating || 0) >= star
+                                                                                                className={`text-lg sm:text-xl p-1 sm:p-0 focus:outline-none transition-all duration-200 hover:scale-110
+                                                                                            ${(itemData.rating || 0) >= star
                                                                                                         ? 'text-infinityGold drop-shadow-[0_0_8px_rgba(255,215,0,0.8)]'
                                                                                                         : 'text-gray-700 hover:text-infinityGold/50'
                                                                                                     }
-                                                                                                `}
+                                                                                        `}
                                                                                             >
                                                                                                 ★
                                                                                             </button>
@@ -638,9 +633,9 @@
                                                                                     </div>
                                                                                     <button
                                                                                         onClick={() => updateDetails(item.id, 'favorite', !itemData.favorite)}
-                                                                                        className={`focus:outline-none p-1.5 rounded-none transition-all duration-300 hover:bg-white/5
-                                                                                            ${itemData.favorite ? 'text-mcuRed drop-shadow-[0_0_8px_rgba(226,54,54,0.8)]' : 'text-gray-600 hover:text-mcuRed/70'}
-                                                                                        `}
+                                                                                        className={`focus:outline-none p-2 rounded-none transition-all duration-300 hover:bg-white/5
+                                                                                    ${itemData.favorite ? 'text-mcuRed drop-shadow-[0_0_8px_rgba(226,54,54,0.8)]' : 'text-gray-600 hover:text-mcuRed/70'}
+                                                                                `}
                                                                                     >
                                                                                         <Icons.Heart filled={itemData.favorite} />
                                                                                     </button>
@@ -655,14 +650,14 @@
                                                                                             type="date"
                                                                                             value={itemData.date || ''}
                                                                                             onChange={(e) => updateDetails(item.id, 'date', e.target.value)}
-                                                                                            className="w-full bg-black/40 border border-white/5 rounded-none pl-9 pr-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue font-scifi tracking-wider"
+                                                                                            className="w-full bg-black/40 border border-white/5 rounded-none pl-9 pr-3 py-2 sm:py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue font-scifi tracking-wider"
                                                                                         />
                                                                                     </div>
                                                                                     <textarea
                                                                                         value={itemData.notes || ''}
                                                                                         onChange={(e) => updateDetails(item.id, 'notes', e.target.value)}
                                                                                         placeholder="Adicionar anotações multiversais..."
-                                                                                        className="w-full bg-black/40 border border-white/5 rounded-none px-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue resize-none h-14 placeholder-gray-600"
+                                                                                        className="w-full bg-black/40 border border-white/5 rounded-none px-3 py-2 sm:py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue resize-none h-16 sm:h-14 placeholder-gray-600"
                                                                                     ></textarea>
                                                                                 </div>
                                                                             </div>
@@ -680,7 +675,6 @@
                             )}
                         </main>
                     </div>
-
                 </div>
             );
         }
