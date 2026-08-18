@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maratona MCU PRO - Ultimate Tracker</title>
+    <title>MCU Checklist - Ultimate Tracker</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
@@ -20,8 +20,11 @@
             darkMode: 'class',
             theme: {
                 extend: {
+                    screens: {
+                        '3xl': '1920px',
+                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Outfit', 'sans-serif'],
                         scifi: ['Rajdhani', 'sans-serif'],
                     },
                     colors: {
@@ -73,31 +76,30 @@
         }
 
         .glass-panel {
-            background: rgba(20, 20, 30, 0.55);
+            background: rgba(15, 15, 23, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .glass-card {
-            background: linear-gradient(135deg, rgba(30, 30, 45, 0.6) 0%, rgba(15, 15, 20, 0.8) 100%);
+            background: rgba(20, 20, 30, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s ease-in-out;
         }
 
         .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
         }
 
         .neon-active {
-            border-color: rgba(0, 210, 255, 0.5);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2), inset 0 0 20px rgba(0, 210, 255, 0.05);
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.1) 0%, rgba(15, 15, 20, 0.9) 100%);
+            border-color: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 0 12px rgba(0, 210, 255, 0.15);
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.08) 0%, rgba(15, 15, 20, 0.9) 100%);
         }
 
         .phase-complete {
@@ -108,7 +110,6 @@
             content: '';
             position: absolute;
             inset: -1px;
-            border-radius: inherit;
             padding: 1px;
             background: linear-gradient(90deg, #ffd700, #8a2be2, #ffd700);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -125,26 +126,8 @@
             }
         }
 
-        .hide-scrollbar::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 210, 255, 0.5);
-        }
-
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -153,7 +136,6 @@
 
         ::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -181,11 +163,8 @@
 
 <body class="bg-cosmos bg-fixed min-h-screen font-sans antialiased selection:bg-mcuRed selection:text-white pb-32">
 
-    <div
-        class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-mcuRed/10 blur-[120px] pointer-events-none z-0">
-    </div>
-    <div
-        class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-arcBlue/5 blur-[150px] pointer-events-none z-0">
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-mcuRed/10 blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-arcBlue/5 blur-[150px] pointer-events-none z-0">
     </div>
 
     <div id="root" class="relative z-10"></div>
@@ -271,10 +250,10 @@
         ];
 
         const Icons = {
-            Check: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>,
+            Check: () => <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>,
             Film: () => <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>,
             TV: () => <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>,
-            Heart: ({ filled }) => <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>,
+            Heart: ({ filled }) => <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>,
             ChevronDown: () => <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
         };
 
@@ -289,9 +268,9 @@
                 return {};
             });
 
+            const [expandedItems, setExpandedItems] = React.useState({});
             const [typeFilter, setTypeFilter] = React.useState('Todos');
             const [selectedPhase, setSelectedPhase] = React.useState('Todas');
-            const [showPhases, setShowPhases] = React.useState(false);
 
             React.useEffect(() => {
                 localStorage.setItem('mcuWatchedV2', JSON.stringify(watched));
@@ -309,6 +288,14 @@
                         return { ...prev, [id]: { watched: true, rating: 0, date: today, notes: '', favorite: false } };
                     }
                 });
+            };
+
+            const toggleExpand = (id) => {
+                // Removida a validação de item assistido para dar liberdade à expansão
+                setExpandedItems(prev => ({
+                    ...prev,
+                    [id]: !prev[id]
+                }));
             };
 
             const updateDetails = (id, field, value) => {
@@ -371,278 +358,284 @@
             const allPhasesList = ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5', 'Fase 6'];
 
             return (
-                <div className="max-w-6xl mx-auto p-4 md:p-8 animate-fade-in relative z-10">
+                <div className="w-full px-4 md:px-8 py-6 animate-fade-in relative z-10">
 
-                    <header className="mb-12 text-center glass-panel p-6 md:p-8 rounded-3xl relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-mcuRed to-transparent"></div>
-
-                        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-500 mb-2 drop-shadow-lg">
-                            Maratona <span className="text-transparent bg-clip-text bg-gradient-to-r from-mcuRed to-red-800 text-glow-red">MCU</span>
+                    {/* Cabeçalho Minimalista com Barra de Progresso Integrada */}
+                    <header className="mb-8 text-center glass-panel pt-8 pb-10 px-4 rounded-none relative overflow-hidden w-full border-b border-white/10">
+                        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-mcuRed to-transparent"></div>
+                        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-500 drop-shadow-lg">
+                            MCU <span className="text-transparent bg-clip-text bg-gradient-to-r from-mcuRed to-red-800 text-glow-red">Checklist</span>
                         </h1>
-                        <p className="text-gray-400 text-base md:text-lg mb-8 tracking-wide font-light">
-                            Protocolo de Acompanhamento Multiversal
-                        </p>
 
-                        <div className="max-w-2xl mx-auto mb-10">
+                        <div className="w-full max-w-4xl mx-auto mt-8 px-2">
                             <div className="flex justify-between items-end mb-2 px-1">
-                                <span className="text-xs font-bold tracking-widest text-arcBlue uppercase">Sincronização</span>
-                                <span className="font-scifi text-3xl font-bold text-white text-glow">
-                                    {progress}<span className="text-lg text-arcBlue">%</span>
-                                </span>
+                                <span className="text-xs font-bold tracking-widest text-arcBlue uppercase">{progress}% Sincronizado</span>
+                                <span className="text-xs text-gray-400 font-scifi tracking-widest uppercase">{watchedCount} / {total} Registros</span>
                             </div>
-                            <div className="h-3 w-full bg-gray-900 rounded-full overflow-hidden border border-white/5 relative p-[1px]">
+                            <div className="h-[2px] w-full bg-white/5 rounded-none overflow-hidden relative">
                                 <div className="absolute inset-0 bg-arcBlue blur-md opacity-30 animate-pulse-glow" style={{ width: `${progress}%` }}></div>
                                 <div
-                                    className="h-full rounded-full bg-gradient-to-r from-mcuRed via-purple-500 to-arcBlue relative z-10 transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(0,210,255,0.8)]"
+                                    className="h-full rounded-none bg-gradient-to-r from-mcuRed via-purple-500 to-arcBlue relative z-10 transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(0,210,255,0.8)]"
                                     style={{ width: `${progress}%` }}
                                 >
                                     <div className="absolute top-0 right-0 bottom-0 w-4 bg-white/40 blur-[2px]"></div>
                                 </div>
                             </div>
-                            <p className="text-xs text-gray-500 mt-3 font-scifi tracking-widest uppercase">
-                                {watchedCount} / {total} Registros Confirmados
-                            </p>
-                        </div>
-
-                        {/* Controles de Filtros e Setas */}
-                        <div className="flex flex-col items-center justify-center w-full">
-
-                            {/* Filtros Maiores de Tipo + Seta para abrir Fases */}
-                            <div className="flex items-center gap-3 bg-black/40 p-2 rounded-full border border-white/10 shadow-lg">
-                                <div className="flex gap-1 md:gap-2">
-                                    {['Todos', 'Filmes', 'Séries'].map(f => (
-                                        <button
-                                            key={f}
-                                            onClick={() => setTypeFilter(f)}
-                                            className={`px-6 py-2 md:px-8 md:py-3 rounded-full text-sm md:text-base font-bold tracking-wide transition-all duration-300 border
-                                                ${typeFilter === f
-                                                    ? 'bg-arcBlue/20 border-arcBlue text-arcBlue shadow-[0_0_15px_rgba(0,210,255,0.3)]'
-                                                    : 'border-transparent text-gray-400 hover:text-white hover:bg-white/10'
-                                                }`}
-                                        >
-                                            {f}
-                                        </button>
-                                    ))}
-                                </div>
-
-                                {/* Separador Visual */}
-                                <div className="w-px h-8 bg-white/10 mx-1"></div>
-
-                                {/* Botão de Seta para Fases */}
-                                <button
-                                    onClick={() => setShowPhases(!showPhases)}
-                                    title="Filtrar por Fases"
-                                    className={`p-2 md:p-3 rounded-full transition-all duration-300 border mr-1
-                                        ${showPhases
-                                            ? 'bg-mcuRed/20 border-mcuRed text-mcuRed shadow-[0_0_10px_rgba(226,54,54,0.4)]'
-                                            : 'border-transparent text-gray-400 hover:text-white hover:bg-white/10'
-                                        }`}
-                                >
-                                    <div className={`transition-transform duration-300 ${showPhases ? 'rotate-180' : ''}`}>
-                                        <Icons.ChevronDown />
-                                    </div>
-                                </button>
-                            </div>
-
-                            {/* Container Expansível das Fases */}
-                            <div className={`w-full overflow-hidden transition-all duration-500 ease-in-out ${showPhases ? 'max-h-40 opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}`}>
-                                <div className="flex gap-2 overflow-x-auto pb-4 hide-scrollbar justify-start md:justify-center px-2 min-w-max mx-auto">
-                                    <button
-                                        onClick={() => handlePhaseClick('Todas')}
-                                        className={`px-5 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-300 border whitespace-nowrap
-                                            ${selectedPhase === 'Todas'
-                                                ? 'bg-mcuRed/20 border-mcuRed text-white shadow-[0_0_12px_rgba(226,54,54,0.4)]'
-                                                : 'bg-black/30 border-white/10 text-gray-400 hover:text-white hover:border-white/30'
-                                            }`}
-                                    >
-                                        Todas as Fases
-                                    </button>
-                                    {allPhasesList.map((p) => {
-                                        const phaseItems = mcuList.filter(i => i.phase === p);
-                                        const phaseWatched = phaseItems.filter(i => watched[i.id]?.watched).length;
-                                        const isComplete = phaseWatched === phaseItems.length && phaseItems.length > 0;
-
-                                        return (
-                                            <button
-                                                key={p}
-                                                onClick={() => handlePhaseClick(p)}
-                                                className={`px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-300 border flex items-center gap-2 whitespace-nowrap
-                                                    ${selectedPhase === p
-                                                        ? 'bg-arcBlue/20 border-arcBlue text-arcBlue shadow-[0_0_12px_rgba(0,210,255,0.4)] scale-105'
-                                                        : isComplete
-                                                            ? 'bg-infinityGold/10 border-infinityGold/40 text-infinityGold hover:border-infinityGold'
-                                                            : 'bg-black/30 border-white/10 text-gray-400 hover:text-white hover:border-white/30'
-                                                    }`}
-                                            >
-                                                {p}
-                                                <span className="text-[11px] opacity-70 font-scifi">({phaseWatched}/{phaseItems.length})</span>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-
                         </div>
                     </header>
 
-                    <div className="space-y-16">
-                        {Object.keys(phases).length === 0 ? (
-                            <div className="text-center py-12 glass-panel rounded-3xl">
-                                <p className="text-gray-400 font-scifi tracking-wider text-lg">Nenhum título encontrado com os filtros aplicados.</p>
+                    {/* Layout Reto de Lado a Lado */}
+                    <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
+
+                        {/* Sidebar Funcional Minimalista */}
+                        <aside className="w-full lg:w-80 flex-shrink-0 sticky top-8 z-20 space-y-6">
+
+                            {/* Bloco de Filtros */}
+                            <div className="glass-panel p-6 rounded-none border border-white/5 flex flex-col gap-6">
+
+                                {/* Área de Filtro por Mídia */}
+                                <div>
+                                    <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">FILTRAR POR MÍDIA</h3>
+                                    <div className="flex flex-row items-center gap-2.5">
+                                        {['Todos', 'Filmes', 'Séries'].map(f => (
+                                            <button
+                                                key={f}
+                                                onClick={() => setTypeFilter(f)}
+                                                className={`px-5 py-2 text-sm font-semibold tracking-wide transition-all duration-200 rounded-2xl border ${typeFilter === f
+                                                    ? 'bg-arcBlue/10 border-arcBlue text-arcBlue shadow-[0_0_12px_rgba(0,210,255,0.3)]'
+                                                    : 'bg-[#0c0f17] border-transparent text-gray-300 hover:text-white hover:bg-white/10'
+                                                    }`}
+                                            >
+                                                {f}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="w-full h-px bg-white/5"></div>
+
+                                {/* Linha do Tempo Minimalista */}
+                                <div>
+                                    <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Linha do Tempo</h3>
+                                    <div className="flex flex-col gap-2">
+                                        <button
+                                            onClick={() => handlePhaseClick('Todas')}
+                                            className={`w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border text-left
+                                                ${selectedPhase === 'Todas'
+                                                    ? 'bg-mcuRed/20 border-mcuRed text-white shadow-[0_0_12px_rgba(226,54,54,0.4)]'
+                                                    : 'bg-black/30 border-white/5 text-gray-400 hover:text-white hover:border-white/20'
+                                                }`}
+                                        >
+                                            Todas as Fases
+                                        </button>
+                                        {allPhasesList.map((p) => {
+                                            const phaseItems = mcuList.filter(i => i.phase === p);
+                                            const phaseWatched = phaseItems.filter(i => watched[i.id]?.watched).length;
+                                            const isComplete = phaseWatched === phaseItems.length && phaseItems.length > 0;
+
+                                            return (
+                                                <button
+                                                    key={p}
+                                                    onClick={() => handlePhaseClick(p)}
+                                                    className={`w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border flex justify-between items-center
+                                                        ${selectedPhase === p
+                                                            ? 'bg-arcBlue/20 border-arcBlue text-arcBlue shadow-[0_0_12px_rgba(0,210,255,0.4)]'
+                                                            : isComplete
+                                                                ? 'bg-infinityGold/10 border-infinityGold/40 text-infinityGold hover:border-infinityGold'
+                                                                : 'bg-black/30 border-white/5 text-gray-400 hover:text-white hover:border-white/20'
+                                                        }`}
+                                                >
+                                                    <span>{p}</span>
+                                                    <span className="text-[11px] opacity-70 font-scifi">({phaseWatched}/{phaseItems.length})</span>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
                             </div>
-                        ) : (
-                            Object.entries(phases).map(([phase, items], phaseIndex) => {
-                                const isPhaseComplete = items.every(item => watched[item.id]?.watched) && items.length > 0;
-                                const sectionId = `section-${phase.replace(/\s+/g, '-').toLowerCase()}`;
+                        </aside>
 
-                                return (
-                                    <section
-                                        key={phase}
-                                        id={sectionId}
-                                        className={`p-6 md:p-8 rounded-3xl transition-all duration-500 slide-up scroll-mt-6
-                                            ${isPhaseComplete ? 'phase-complete bg-gray-900/40 glass-panel' : 'glass-panel'}
-                                        `}
-                                        style={{ animationDelay: `${phaseIndex * 0.05}s` }}
-                                    >
-                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 border-b border-white/5 pb-4 gap-4">
-                                            <h2 className={`text-2xl md:text-3xl font-black uppercase tracking-wider flex items-center gap-4
-                                                ${isPhaseComplete ? 'text-transparent bg-clip-text bg-gradient-to-r from-infinityGold to-infinityPurple text-glow' : 'text-white'}
-                                            `}>
-                                                <span className={`w-3 h-10 rounded-full inline-block ${isPhaseComplete ? 'bg-gradient-to-b from-infinityGold to-infinityPurple shadow-[0_0_10px_#ffd700]' : 'bg-mcuRed'}`}></span>
-                                                {phase}
-                                                {isPhaseComplete && (
-                                                    <span className="px-3 py-1 bg-infinityGold/20 border border-infinityGold/50 text-infinityGold text-xs font-bold rounded-full uppercase tracking-widest animate-pulse ml-2">
-                                                        Concluída
-                                                    </span>
-                                                )}
-                                            </h2>
+                        {/* Conteúdo Principal Reto e Minimalista */}
+                        <main className="flex-1 w-full space-y-10">
+                            {Object.keys(phases).length === 0 ? (
+                                <div className="text-center py-12 glass-panel rounded-none border border-white/5 w-full">
+                                    <p className="text-gray-400 font-scifi tracking-wider text-lg">Nenhum título encontrado com os filtros aplicados.</p>
+                                </div>
+                            ) : (
+                                Object.entries(phases).map(([phase, items], phaseIndex) => {
+                                    const isPhaseComplete = items.every(item => watched[item.id]?.watched) && items.length > 0;
+                                    const sectionId = `section-${phase.replace(/\s+/g, '-').toLowerCase()}`;
 
-                                            <div className="flex items-center gap-2 w-full sm:w-auto">
-                                                <button
-                                                    onClick={() => selectAllPhase(items)}
-                                                    className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-arcBlue text-gray-300 hover:text-arcBlue text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300"
-                                                >
-                                                    Marcar Tudo
-                                                </button>
-                                                <button
-                                                    onClick={() => deselectAllPhase(items)}
-                                                    className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-mcuRed text-gray-300 hover:text-mcuRed text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300"
-                                                >
-                                                    Desmarcar
-                                                </button>
-                                            </div>
-                                        </div>
+                                    return (
+                                        <section
+                                            key={phase}
+                                            id={sectionId}
+                                            className={`w-full p-6 md:p-8 rounded-none border border-white/5 transition-all duration-500 slide-up scroll-mt-6
+                                                ${isPhaseComplete ? 'phase-complete bg-gray-900/40 glass-panel' : 'glass-panel'}
+                                            `}
+                                            style={{ animationDelay: `${phaseIndex * 0.05}s` }}
+                                        >
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 border-b border-white/5 pb-4 gap-4">
+                                                <h2 className={`text-2xl md:text-3xl font-black uppercase tracking-wider flex items-center gap-4
+                                                    ${isPhaseComplete ? 'text-transparent bg-clip-text bg-gradient-to-r from-infinityGold to-infinityPurple text-glow' : 'text-white'}
+                                                `}>
+                                                    <span className={`w-2 h-8 rounded-none inline-block ${isPhaseComplete ? 'bg-gradient-to-b from-infinityGold to-infinityPurple shadow-[0_0_10px_#ffd700]' : 'bg-mcuRed'}`}></span>
+                                                    {phase}
+                                                    {isPhaseComplete && (
+                                                        <span className="px-3 py-1 bg-infinityGold/20 border border-infinityGold/50 text-infinityGold text-xs font-bold rounded-none uppercase tracking-widest animate-pulse ml-2">
+                                                            Concluída
+                                                        </span>
+                                                    )}
+                                                </h2>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                                            {items.map(item => {
-                                                const itemData = watched[item.id] || {};
-                                                const isWatched = !!itemData.watched;
-                                                const isFilme = item.type === 'Filme';
-
-                                                return (
-                                                    <div
-                                                        key={item.id}
-                                                        className={`glass-card flex flex-col p-5 rounded-2xl relative overflow-hidden group
-                                                            ${isWatched ? 'neon-active' : ''}
-                                                        `}
+                                                <div className="flex items-center gap-2 w-full sm:w-auto">
+                                                    <button
+                                                        onClick={() => selectAllPhase(items)}
+                                                        className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-arcBlue text-gray-300 hover:text-arcBlue text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
                                                     >
-                                                        <div className={`absolute -right-10 -top-10 w-32 h-32 bg-arcBlue/10 blur-3xl rounded-full transition-opacity duration-500 ${isWatched ? 'opacity-100' : 'opacity-0'}`}></div>
+                                                        Marcar Tudo
+                                                    </button>
+                                                    <button
+                                                        onClick={() => deselectAllPhase(items)}
+                                                        className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-mcuRed text-gray-300 hover:text-mcuRed text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
+                                                    >
+                                                        Desmarcar
+                                                    </button>
+                                                </div>
+                                            </div>
 
+                                            {/* Grade de Cards com items-start */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 gap-4 items-start">
+                                                {items.map(item => {
+                                                    const itemData = watched[item.id] || {};
+                                                    const isWatched = !!itemData.watched;
+                                                    // O estado expandido agora é totalmente livre e dissociado de estar checado ou não
+                                                    const isExpanded = !!expandedItems[item.id];
+                                                    const isFilme = item.type === 'Filme';
+
+                                                    return (
                                                         <div
-                                                            onClick={() => toggleWatch(item.id)}
-                                                            className="cursor-pointer flex items-start gap-4 relative z-10"
+                                                            key={item.id}
+                                                            className={`glass-card flex flex-col p-5 rounded-none relative overflow-hidden group border border-white/5 h-fit
+                                                                ${isWatched ? 'neon-active' : ''}
+                                                            `}
                                                         >
-                                                            <div className={`mt-1 flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center border-2 transition-all duration-300
-                                                                ${isWatched
-                                                                    ? 'bg-arcBlue border-arcBlue text-space shadow-[0_0_10px_rgba(0,210,255,0.8)] scale-110'
-                                                                    : 'border-gray-600 group-hover:border-mcuRed text-transparent'
-                                                                }`}
+                                                            <div className={`absolute -right-10 -top-10 w-32 h-32 bg-arcBlue/10 blur-3xl rounded-none transition-opacity duration-500 ${isWatched ? 'opacity-100' : 'opacity-0'}`}></div>
+
+                                                            {/* Clique na área principal gerencia a propriedade assistida (watch) */}
+                                                            <div
+                                                                onClick={() => toggleWatch(item.id)}
+                                                                className="cursor-pointer flex items-start gap-4 relative z-10 w-full"
                                                             >
-                                                                <Icons.Check />
-                                                            </div>
+                                                                {/* Checkbox visual - Passa a ouvir apenas o clique do componente pai */}
+                                                                <div
+                                                                    className={`mt-1 flex-shrink-0 w-6 h-6 rounded-none flex items-center justify-center border transition-all duration-300 group-hover:scale-110
+                                                                    ${isWatched
+                                                                            ? 'bg-arcBlue border-arcBlue text-space shadow-[0_0_10px_rgba(0,210,255,0.8)]'
+                                                                            : 'border-gray-600 group-hover:border-mcuRed text-transparent'
+                                                                        }`}
+                                                                >
+                                                                    <Icons.Check />
+                                                                </div>
 
-                                                            <div className="flex-1">
-                                                                <h3 className={`font-bold text-lg leading-tight mb-2 transition-colors duration-300 pr-4
-                                                                    ${isWatched ? 'text-white text-glow-blue' : 'text-gray-200 group-hover:text-mcuRed'}
-                                                                `}>
-                                                                    {item.title}
-                                                                </h3>
-                                                                <div className="flex flex-wrap gap-2 text-xs font-medium">
-                                                                    <span className="bg-black/50 text-gray-300 px-2 py-1 rounded-md border border-white/5 font-scifi text-sm">
-                                                                        {item.year}
-                                                                    </span>
-                                                                    <span className={`flex items-center px-2 py-1 rounded-md border border-white/5
-                                                                        ${isFilme ? 'bg-mcuRed/10 text-red-300' : 'bg-blue-900/30 text-blue-300'}
+                                                                {/* Títulos e Tags ocupam o centro flexível */}
+                                                                <div className="flex-1 pr-2">
+                                                                    <h3 className={`font-bold text-base leading-snug mb-2 transition-colors duration-300
+                                                                        ${isWatched ? 'text-white text-glow-blue' : 'text-gray-200 group-hover:text-mcuRed'}
                                                                     `}>
-                                                                        {isFilme ? <Icons.Film /> : <Icons.TV />}
-                                                                        {item.type}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out w-full
-                                                            ${isWatched ? 'grid-rows-[1fr] opacity-100 mt-5' : 'grid-rows-[0fr] opacity-0 mt-0'}
-                                                        `}>
-                                                            <div className="overflow-hidden min-h-0">
-                                                                <div className="pt-4 border-t border-arcBlue/20 flex flex-col gap-4 relative z-10">
-                                                                    <div className="flex justify-between items-center bg-black/30 p-2 rounded-xl border border-white/5">
-                                                                        <div className="flex gap-1 px-2" onClick={(e) => e.stopPropagation()}>
-                                                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                                                <button
-                                                                                    key={star}
-                                                                                    onClick={() => updateDetails(item.id, 'rating', itemData.rating === star ? 0 : star)}
-                                                                                    className={`text-2xl focus:outline-none transition-all duration-200 hover:scale-125
-                                                                                        ${(itemData.rating || 0) >= star
-                                                                                            ? 'text-infinityGold drop-shadow-[0_0_8px_rgba(255,215,0,0.8)]'
-                                                                                            : 'text-gray-700 hover:text-infinityGold/50'
-                                                                                        }
-                                                                                    `}
-                                                                                >
-                                                                                    ★
-                                                                                </button>
-                                                                            ))}
-                                                                        </div>
-                                                                        <button
-                                                                            onClick={(e) => { e.stopPropagation(); updateDetails(item.id, 'favorite', !itemData.favorite); }}
-                                                                            className={`focus:outline-none p-2 rounded-full transition-all duration-300 hover:bg-white/5
-                                                                                ${itemData.favorite ? 'text-mcuRed drop-shadow-[0_0_8px_rgba(226,54,54,0.8)] scale-110' : 'text-gray-600 hover:text-mcuRed/70'}
-                                                                            `}
-                                                                        >
-                                                                            <Icons.Heart filled={itemData.favorite} />
-                                                                        </button>
+                                                                        {item.title}
+                                                                    </h3>
+                                                                    <div className="flex flex-wrap gap-2 text-xs font-medium">
+                                                                        <span className="bg-black/50 text-gray-300 px-2 py-0.5 rounded-none border border-white/5 font-scifi text-xs">
+                                                                            {item.year}
+                                                                        </span>
+                                                                        <span className={`flex items-center px-2 py-0.5 rounded-none border border-white/5 text-xs
+                                                                            ${isFilme ? 'bg-mcuRed/10 text-red-300' : 'bg-blue-900/30 text-blue-300'}
+                                                                        `}>
+                                                                            {isFilme ? <Icons.Film /> : <Icons.TV />}
+                                                                            {item.type}
+                                                                        </span>
                                                                     </div>
+                                                                </div>
 
-                                                                    <div className="flex flex-col gap-3" onClick={(e) => e.stopPropagation()}>
-                                                                        <div className="relative group">
-                                                                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-                                                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                                {/* Botão de Expansão (Chevron) isolado para as Notas */}
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        toggleExpand(item.id);
+                                                                    }}
+                                                                    className={`flex-shrink-0 p-1 text-gray-400 hover:text-white transition-all duration-300 transform self-start mt-0.5
+                                                                        ${isExpanded ? 'rotate-180 text-arcBlue drop-shadow-[0_0_8px_rgba(0,210,255,0.6)]' : ''}
+                                                                    `}
+                                                                >
+                                                                    <Icons.ChevronDown />
+                                                                </button>
+                                                            </div>
+
+                                                            {/* Área Expansível para as Utilidades */}
+                                                            <div className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out w-full
+                                                                ${isExpanded ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0 mt-0'}
+                                                            `}>
+                                                                <div className="overflow-hidden min-h-0">
+                                                                    <div className="pt-3 border-t border-white/5 flex flex-col gap-3 relative z-10">
+                                                                        <div className="flex justify-between items-center bg-black/40 p-2 rounded-none border border-white/5">
+                                                                            <div className="flex gap-1 px-1">
+                                                                                {[1, 2, 3, 4, 5].map((star) => (
+                                                                                    <button
+                                                                                        key={star}
+                                                                                        onClick={() => updateDetails(item.id, 'rating', itemData.rating === star ? 0 : star)}
+                                                                                        className={`text-xl focus:outline-none transition-all duration-200 hover:scale-110
+                                                                                            ${(itemData.rating || 0) >= star
+                                                                                                ? 'text-infinityGold drop-shadow-[0_0_8px_rgba(255,215,0,0.8)]'
+                                                                                                : 'text-gray-700 hover:text-infinityGold/50'
+                                                                                            }
+                                                                                        `}
+                                                                                    >
+                                                                                        ★
+                                                                                    </button>
+                                                                                ))}
                                                                             </div>
-                                                                            <input
-                                                                                type="date"
-                                                                                value={itemData.date || ''}
-                                                                                onChange={(e) => updateDetails(item.id, 'date', e.target.value)}
-                                                                                className="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-arcBlue focus:ring-1 focus:ring-arcBlue transition-colors font-scifi tracking-wider"
-                                                                            />
+                                                                            <button
+                                                                                onClick={() => updateDetails(item.id, 'favorite', !itemData.favorite)}
+                                                                                className={`focus:outline-none p-1.5 rounded-none transition-all duration-300 hover:bg-white/5
+                                                                                    ${itemData.favorite ? 'text-mcuRed drop-shadow-[0_0_8px_rgba(226,54,54,0.8)]' : 'text-gray-600 hover:text-mcuRed/70'}
+                                                                                `}
+                                                                            >
+                                                                                <Icons.Heart filled={itemData.favorite} />
+                                                                            </button>
                                                                         </div>
-                                                                        <textarea
-                                                                            value={itemData.notes || ''}
-                                                                            onChange={(e) => updateDetails(item.id, 'notes', e.target.value)}
-                                                                            placeholder="Adicionar anotações multiversais..."
-                                                                            className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-arcBlue focus:ring-1 focus:ring-arcBlue transition-colors resize-none h-16 placeholder-gray-600"
-                                                                        ></textarea>
+
+                                                                        <div className="flex flex-col gap-2">
+                                                                            <div className="relative group">
+                                                                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                                                </div>
+                                                                                <input
+                                                                                    type="date"
+                                                                                    value={itemData.date || ''}
+                                                                                    onChange={(e) => updateDetails(item.id, 'date', e.target.value)}
+                                                                                    className="w-full bg-black/40 border border-white/5 rounded-none pl-9 pr-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue font-scifi tracking-wider"
+                                                                                />
+                                                                            </div>
+                                                                            <textarea
+                                                                                value={itemData.notes || ''}
+                                                                                onChange={(e) => updateDetails(item.id, 'notes', e.target.value)}
+                                                                                placeholder="Adicionar anotações multiversais..."
+                                                                                className="w-full bg-black/40 border border-white/5 rounded-none px-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue resize-none h-14 placeholder-gray-600"
+                                                                            ></textarea>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </section>
-                                );
-                            })
-                        )}
+                                                    );
+                                                })}
+                                            </div>
+                                        </section>
+                                    );
+                                })
+                            )}
+                        </main>
                     </div>
 
                 </div>
