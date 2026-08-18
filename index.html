@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maratona MCU - App</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel para compilar JSX no navegador -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen font-sans antialiased selection:bg-red-600 selection:text-white">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const mcuList = [
+            { id: 1, phase: 'Fase 1', title: 'Homem de Ferro', year: 2008, type: 'Filme' },
+            { id: 2, phase: 'Fase 1', title: 'O Incrível Hulk', year: 2008, type: 'Filme' },
+            { id: 3, phase: 'Fase 1', title: 'Homem de Ferro 2', year: 2010, type: 'Filme' },
+            { id: 4, phase: 'Fase 1', title: 'Thor', year: 2011, type: 'Filme' },
+            { id: 5, phase: 'Fase 1', title: 'Capitão América: O Primeiro Vingador', year: 2011, type: 'Filme' },
+            { id: 6, phase: 'Fase 1', title: 'Os Vingadores', year: 2012, type: 'Filme' },
+            { id: 7, phase: 'Fase 2', title: 'Homem de Ferro 3', year: 2013, type: 'Filme' },
+            { id: 8, phase: 'Fase 2', title: 'Agents of S.H.I.E.L.D. (1ª Temporada)', year: 2013, type: 'Série' },
+            { id: 9, phase: 'Fase 2', title: 'Thor: O Mundo Sombrio', year: 2013, type: 'Filme' },
+            { id: 10, phase: 'Fase 2', title: 'Capitão América: O Soldado Invernal', year: 2014, type: 'Filme' },
+            { id: 11, phase: 'Fase 2', title: 'Guardiões da Galáxia', year: 2014, type: 'Filme' },
+            { id: 12, phase: 'Fase 2', title: 'Agent Carter (1ª Temporada)', year: 2015, type: 'Série' },
+            { id: 13, phase: 'Fase 2', title: 'Demolidor (1ª Temporada)', year: 2015, type: 'Série' },
+            { id: 14, phase: 'Fase 2', title: 'Vingadores: Era de Ultron', year: 2015, type: 'Filme' },
+            { id: 15, phase: 'Fase 2', title: 'Homem-Formiga', year: 2015, type: 'Filme' },
+            { id: 16, phase: 'Fase 2', title: 'Jessica Jones (1ª Temporada)', year: 2015, type: 'Série' },
+            { id: 17, phase: 'Fase 3', title: 'Demolidor (2ª Temporada)', year: 2016, type: 'Série' },
+            { id: 18, phase: 'Fase 3', title: 'Capitão América: Guerra Civil', year: 2016, type: 'Filme' },
+            { id: 19, phase: 'Fase 3', title: 'Luke Cage (1ª Temporada)', year: 2016, type: 'Série' },
+            { id: 20, phase: 'Fase 3', title: 'Doutor Estranho', year: 2016, type: 'Filme' },
+            { id: 21, phase: 'Fase 3', title: 'Punho de Ferro (1ª Temporada)', year: 2017, type: 'Série' },
+            { id: 22, phase: 'Fase 3', title: 'Guardiões da Galáxia Vol. 2', year: 2017, type: 'Filme' },
+            { id: 23, phase: 'Fase 3', title: 'Homem-Aranha: De Volta ao Lar', year: 2017, type: 'Filme' },
+            { id: 24, phase: 'Fase 3', title: 'Os Defensores (Minissérie)', year: 2017, type: 'Série' },
+            { id: 25, phase: 'Fase 3', title: 'Inumanos (1ª Temporada)', year: 2017, type: 'Série' },
+            { id: 26, phase: 'Fase 3', title: 'Thor: Ragnarok', year: 2017, type: 'Filme' },
+            { id: 27, phase: 'Fase 3', title: 'O Justiceiro (1ª Temporada)', year: 2017, type: 'Série' },
+            { id: 28, phase: 'Fase 3', title: 'Fugitivos (1ª Temporada)', year: 2017, type: 'Série' },
+            { id: 29, phase: 'Fase 3', title: 'Pantera Negra', year: 2018, type: 'Filme' },
+            { id: 30, phase: 'Fase 3', title: 'Jessica Jones (2ª Temporada)', year: 2018, type: 'Série' },
+            { id: 31, phase: 'Fase 3', title: 'Vingadores: Guerra Infinita', year: 2018, type: 'Filme' },
+            { id: 32, phase: 'Fase 3', title: 'Manto e Adaga (1ª Temporada)', year: 2018, type: 'Série' },
+            { id: 33, phase: 'Fase 3', title: 'Luke Cage (2ª Temporada)', year: 2018, type: 'Série' },
+            { id: 34, phase: 'Fase 3', title: 'Homem-Formiga e a Vespa', year: 2018, type: 'Filme' },
+            { id: 35, phase: 'Fase 3', title: 'Punho de Ferro (2ª Temporada)', year: 2018, type: 'Série' },
+            { id: 36, phase: 'Fase 3', title: 'Demolidor (3ª Temporada)', year: 2018, type: 'Série' },
+            { id: 37, phase: 'Fase 3', title: 'O Justiceiro (2ª Temporada)', year: 2019, type: 'Série' },
+            { id: 38, phase: 'Fase 3', title: 'Capitã Marvel', year: 2019, type: 'Filme' },
+            { id: 39, phase: 'Fase 3', title: 'Jessica Jones (3ª Temporada)', year: 2019, type: 'Série' },
+            { id: 40, phase: 'Fase 3', title: 'Vingadores: Ultimato', year: 2019, type: 'Filme' },
+            { id: 41, phase: 'Fase 3', title: 'Homem-Aranha: Longe de Casa', year: 2019, type: 'Filme' },
+            { id: 42, phase: 'Fase 4', title: 'WandaVision (Minissérie)', year: 2021, type: 'Série' },
+            { id: 43, phase: 'Fase 4', title: 'Falcão e o Soldado Invernal (Minissérie)', year: 2021, type: 'Série' },
+            { id: 44, phase: 'Fase 4', title: 'Loki (1ª Temporada)', year: 2021, type: 'Série' },
+            { id: 45, phase: 'Fase 4', title: 'Viúva Negra', year: 2021, type: 'Filme' },
+            { id: 46, phase: 'Fase 4', title: 'What If...? (1ª Temporada)', year: 2021, type: 'Animação' },
+            { id: 47, phase: 'Fase 4', title: 'Shang-Chi e a Lenda dos Dez Anéis', year: 2021, type: 'Filme' },
+            { id: 48, phase: 'Fase 4', title: 'Eternos', year: 2021, type: 'Filme' },
+            { id: 49, phase: 'Fase 4', title: 'Gavião Arqueiro (Minissérie)', year: 2021, type: 'Série' },
+            { id: 50, phase: 'Fase 4', title: 'Homem-Aranha: Sem Volta Para Casa', year: 2021, type: 'Filme' },
+            { id: 51, phase: 'Fase 4', title: 'Cavaleiro da Lua (Minissérie)', year: 2022, type: 'Série' },
+            { id: 52, phase: 'Fase 4', title: 'Doutor Estranho no Multiverso da Loucura', year: 2022, type: 'Filme' },
+            { id: 53, phase: 'Fase 4', title: 'Ms. Marvel (Minissérie)', year: 2022, type: 'Série' },
+            { id: 54, phase: 'Fase 4', title: 'Thor: Amor e Trovão', year: 2022, type: 'Filme' },
+            { id: 55, phase: 'Fase 4', title: 'Eu Sou Groot', year: 2022, type: 'Curtas' },
+            { id: 56, phase: 'Fase 4', title: 'Mulher-Hulk: Defensora de Heróis', year: 2022, type: 'Série' },
+            { id: 57, phase: 'Fase 4', title: 'Lobisomem na Noite', year: 2022, type: 'Especial' },
+            { id: 58, phase: 'Fase 4', title: 'Pantera Negra: Wakanda Para Sempre', year: 2022, type: 'Filme' },
+            { id: 59, phase: 'Fase 4', title: 'Guardiões da Galáxia: Especial de Festas', year: 2022, type: 'Especial' },
+            { id: 60, phase: 'Fase 5', title: 'Homem-Formiga e a Vespa: Quantumania', year: 2023, type: 'Filme' },
+            { id: 61, phase: 'Fase 5', title: 'Guardiões da Galáxia Vol. 3', year: 2023, type: 'Filme' },
+            { id: 62, phase: 'Fase 5', title: 'Invasão Secreta (Minissérie)', year: 2023, type: 'Série' },
+            { id: 63, phase: 'Fase 5', title: 'Loki (2ª Temporada)', year: 2023, type: 'Série' },
+            { id: 64, phase: 'Fase 5', title: 'As Marvels', year: 2023, type: 'Filme' },
+            { id: 65, phase: 'Fase 5', title: 'What If...? (2ª Temporada)', year: 2023, type: 'Animação' },
+            { id: 66, phase: 'Fase 5', title: 'Eco (Minissérie)', year: 2024, type: 'Série' },
+            { id: 67, phase: 'Fase 5', title: 'Deadpool & Wolverine', year: 2024, type: 'Filme' },
+            { id: 68, phase: 'Fase 5', title: 'Agatha Desde Sempre', year: 2024, type: 'Série' },
+            { id: 69, phase: 'Fase 5', title: 'Capitão América: Admirável Mundo Novo', year: 2025, type: 'Filme' },
+            { id: 70, phase: 'Fase 5', title: 'Demolidor: Renascido (1ª Temporada)', year: 2025, type: 'Série' },
+            { id: 71, phase: 'Fase 5', title: 'Thunderbolts*', year: 2025, type: 'Filme' },
+            { id: 72, phase: 'Fase 5', title: 'Coração de Ferro (1ª Temporada)', year: 2025, type: 'Série' },
+            { id: 73, phase: 'Fase 6', title: 'Quarteto Fantástico: Primeiros Passos', year: 2025, type: 'Filme' },
+            { id: 74, phase: 'Fase 6', title: 'Vingadores: Doomsday', year: 2026, type: 'Filme' },
+            { id: 75, phase: 'Fase 6', title: 'Homem-Aranha 4', year: 2026, type: 'Filme' },
+            { id: 76, phase: 'Fase 6', title: 'Vingadores: Guerras Secretas', year: 2027, type: 'Filme' },
+        ];
+
+        function App() {
+            // Estado para armazenar os itens assistidos. Puxa do localStorage se existir.
+            const [watched, setWatched] = React.useState(() => {
+                const saved = localStorage.getItem('mcuWatched');
+                return saved ? JSON.parse(saved) : {};
+            });
+
+            // Atualiza o localStorage sempre que houver mudança no estado
+            React.useEffect(() => {
+                localStorage.setItem('mcuWatched', JSON.stringify(watched));
+            }, [watched]);
+
+            const toggleWatch = (id) => {
+                setWatched(prev => ({
+                    ...prev,
+                    [id]: !prev[id]
+                }));
+            };
+
+            // Agrupando a lista por Fases para facilitar a visualização
+            const phases = mcuList.reduce((acc, item) => {
+                if (!acc[item.phase]) acc[item.phase] = [];
+                acc[item.phase].push(item);
+                return acc;
+            }, {});
+
+            // Conta progresso
+            const total = mcuList.length;
+            const watchedCount = Object.values(watched).filter(Boolean).length;
+            const progress = Math.round((watchedCount / total) * 100);
+
+            return (
+                <div className="max-w-5xl mx-auto p-6 md:p-10">
+                    <header className="mb-10 text-center border-b border-gray-800 pb-8">
+                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-widest text-red-600 mb-4">
+                            Maratona MCU
+                        </h1>
+                        <p className="text-gray-400 text-lg mb-6">Acompanhe sua jornada pela Saga do Infinito e Multiverso</p>
+
+                        <div className="max-w-md mx-auto bg-gray-800 rounded-full h-4 overflow-hidden shadow-inner relative">
+                            <div
+                                className="bg-red-600 h-full transition-all duration-500 ease-out"
+                                style={{ width: `${progress}%` }}
+                            ></div>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-2 font-medium">
+                            {watchedCount} de {total} assistidos ({progress}%)
+                        </p>
+                    </header>
+
+                    <div className="space-y-12">
+                        {Object.entries(phases).map(([phase, items]) => (
+                            <section key={phase} className="bg-gray-800/30 p-6 md:p-8 rounded-2xl border border-gray-800">
+                                <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                                    <span className="w-8 h-1 bg-red-600 rounded-full inline-block"></span>
+                                    {phase}
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    {items.map(item => {
+                                        const isWatched = !!watched[item.id];
+                                        return (
+                                            <div
+                                                key={item.id}
+                                                onClick={() => toggleWatch(item.id)}
+                                                className={`cursor-pointer group flex items-start gap-4 p-4 rounded-xl transition-all duration-200 border-2 
+                                                    ${isWatched
+                                                        ? 'bg-green-900/20 border-green-700/50 hover:bg-green-900/40'
+                                                        : 'bg-gray-800 border-transparent hover:border-gray-600 hover:bg-gray-750'
+                                                    }`}
+                                            >
+                                                <div className={`mt-1 flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center border-2 transition-colors
+                                                    ${isWatched
+                                                        ? 'bg-green-500 border-green-500 text-gray-900'
+                                                        : 'border-gray-500 group-hover:border-gray-400 text-transparent'
+                                                    }`}
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h3 className={`font-semibold text-lg leading-tight mb-1 transition-colors ${isWatched ? 'text-green-100 line-through decoration-green-500/50' : 'text-gray-100'}`}>
+                                                        {item.title}
+                                                    </h3>
+                                                    <div className="flex gap-2 text-sm text-gray-400">
+                                                        <span className="bg-gray-900/50 px-2 py-0.5 rounded text-xs border border-gray-700">{item.year}</span>
+                                                        <span className="bg-gray-900/50 px-2 py-0.5 rounded text-xs border border-gray-700">{item.type}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
