@@ -1,32 +1,33 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { 
-    getAuth, 
-    GoogleAuthProvider, 
-    signInWithEmailAndPassword, 
-    createUserWithEmailAndPassword, 
-    signInWithPopup, 
-    signOut, 
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
     onAuthStateChanged,
     updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { 
-    getFirestore, 
-    doc, 
-    setDoc, 
-    getDoc, 
-    onSnapshot 
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Configuração do Firebase
 // Como este projeto não utiliza um bundler (Vite/Webpack), as variáveis process.env não funcionam nativamente.
 // Você deve substituir os valores abaixo pelas suas chaves reais do Firebase.
 const firebaseConfig = {
-    apiKey: "SUBSTITUA_PELA_SUA_API_KEY",
-    authDomain: "SUBSTITUA_PELO_SEU_AUTH_DOMAIN",
-    projectId: "SUBSTITUA_PELO_SEU_PROJECT_ID",
-    storageBucket: "SUBSTITUA_PELO_SEU_STORAGE_BUCKET",
-    messagingSenderId: "SUBSTITUA_PELO_SEU_MESSAGING_SENDER_ID",
-    appId: "SUBSTITUA_PELO_SEU_APP_ID"
+    apiKey: "AIzaSyDyeOcp-N_Z_g29qRoUe9YsCnIUEIEdegM",
+    authDomain: "mcu-checklist-25003.firebaseapp.com",
+    projectId: "mcu-checklist-25003",
+    storageBucket: "mcu-checklist-25003.firebasestorage.app",
+    messagingSenderId: "74371002660",
+    appId: "1:74371002660:web:0f7a93714910be8906c3b1",
+    measurementId: "G-FRY5ETHDXR"
 };
 
 // Inicializa o Firebase
