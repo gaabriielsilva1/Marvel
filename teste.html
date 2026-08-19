@@ -4,289 +4,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCU Checklist - Ultimate Tracker</title>
-
-    <!-- Google Fonts -->
+    <title>MCU Checklist</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    screens: {
-                        '3xl': '1920px',
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        scifi: ['Rajdhani', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        space: '#03050a',
-                        glass: 'rgba(20, 20, 30, 0.7)',
-                        mcuRed: '#e23636',
-                        arcBlue: '#00d2ff',
-                        infinityGold: '#ffd700',
-                        infinityPurple: '#8a2be2'
-                    },
-                    backgroundImage: {
-                        'cosmos': 'radial-gradient(circle at 50% 0%, #1a0b1c 0%, #03050a 60%, #03050a 100%)',
-                    },
-                    animation: {
-                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'fade-in': 'fadeIn 0.4s ease-out forwards',
-                        'slide-up': 'slideUp 0.5s ease-out forwards',
-                    },
-                    keyframes: {
-                        pulseGlow: {
-                            '0%, 100%': { opacity: 0.5, filter: 'blur(8px)' },
-                            '50%': { opacity: 1, filter: 'blur(12px)' },
-                        },
-                        fadeIn: {
-                            'from': { opacity: 0, transform: 'translateY(-10px)' },
-                            'to': { opacity: 1, transform: 'translateY(0)' },
-                        },
-                        slideUp: {
-                            'from': { opacity: 0, transform: 'translateY(20px)' },
-                            'to': { opacity: 1, transform: 'translateY(0)' },
-                        }
+                        background: '#111111',
+                        card: '#1a1a1a',
+                        pill: '#222222',
+                        marvelRed: '#dc2626',
                     }
                 }
             }
         }
     </script>
-
-    <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!-- Firebase Configuration -->
     <script type="module" src="./firebase.js"></script>
-
     <style>
-        body {
-            background-color: #03050a;
-            color: #e2e8f0;
-            overflow-x: hidden;
+        body { background-color: #111111; color: #f5f5f5; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111111; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
-        .glass-panel {
-            background: rgba(15, 15, 23, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .glass-card {
-            background: rgba(20, 20, 30, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.2s ease-in-out;
-        }
-
-        .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-        }
-
-        .neon-active {
-            border-color: rgba(0, 210, 255, 0.4);
-            box-shadow: 0 0 12px rgba(0, 210, 255, 0.15);
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.08) 0%, rgba(15, 15, 20, 0.9) 100%);
-        }
-
-        .phase-complete {
-            position: relative;
-        }
-
-        .phase-complete::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            padding: 1px;
-            background: linear-gradient(90deg, #ffd700, #8a2be2, #ffd700);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            background-size: 200% auto;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #03050a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(226, 54, 54, 0.5);
-        }
-
-        ::-webkit-calendar-picker-indicator {
-            filter: invert(0.8) sepia(1) hue-rotate(180deg) saturate(200%);
-            cursor: pointer;
-        }
-
-        .text-glow {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .text-glow-blue {
-            text-shadow: 0 0 12px rgba(0, 210, 255, 0.8);
-        }
-
-        .text-glow-red {
-            text-shadow: 0 0 12px rgba(226, 54, 54, 0.8);
-        }
+        .animate-fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        ::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
     </style>
 </head>
 
-<body class="bg-cosmos bg-fixed min-h-screen font-sans antialiased selection:bg-mcuRed selection:text-white pb-32">
-
-    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-mcuRed/10 blur-[120px] pointer-events-none z-0"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-arcBlue/5 blur-[150px] pointer-events-none z-0">
-    </div>
-
-    <div id="root" class="relative z-10"></div>
-
+<body class="min-h-screen font-sans antialiased selection:bg-marvelRed selection:text-white">
+    <div id="root"></div>
     <script type="text/babel">
+
+        /* ============================================================
+           DADOS — lista completa do MCU (76 titulos)
+        ============================================================ */
         const mcuList = [
-            { id: 1, phase: 'Fase 1', title: 'Homem de Ferro', year: 2008, type: 'Filme' },
-            { id: 2, phase: 'Fase 1', title: 'O Incrível Hulk', year: 2008, type: 'Filme' },
-            { id: 3, phase: 'Fase 1', title: 'Homem de Ferro 2', year: 2010, type: 'Filme' },
-            { id: 4, phase: 'Fase 1', title: 'Thor', year: 2011, type: 'Filme' },
-            { id: 5, phase: 'Fase 1', title: 'Capitão América: O Primeiro Vingador', year: 2011, type: 'Filme' },
-            { id: 6, phase: 'Fase 1', title: 'Os Vingadores', year: 2012, type: 'Filme' },
-            { id: 7, phase: 'Fase 2', title: 'Homem de Ferro 3', year: 2013, type: 'Filme' },
-            { id: 8, phase: 'Fase 2', title: 'Agents of S.H.I.E.L.D. (1ª Temporada)', year: 2013, type: 'Série' },
-            { id: 9, phase: 'Fase 2', title: 'Thor: O Mundo Sombrio', year: 2013, type: 'Filme' },
-            { id: 10, phase: 'Fase 2', title: 'Capitão América: O Soldado Invernal', year: 2014, type: 'Filme' },
-            { id: 11, phase: 'Fase 2', title: 'Guardiões da Galáxia', year: 2014, type: 'Filme' },
-            { id: 12, phase: 'Fase 2', title: 'Agent Carter (1ª Temporada)', year: 2015, type: 'Série' },
-            { id: 13, phase: 'Fase 2', title: 'Demolidor (1ª Temporada)', year: 2015, type: 'Série' },
+            { id: 1,  phase: 'Fase 1', title: 'Homem de Ferro', year: 2008, type: 'Filme' },
+            { id: 2,  phase: 'Fase 1', title: 'O Incrivel Hulk', year: 2008, type: 'Filme' },
+            { id: 3,  phase: 'Fase 1', title: 'Homem de Ferro 2', year: 2010, type: 'Filme' },
+            { id: 4,  phase: 'Fase 1', title: 'Thor', year: 2011, type: 'Filme' },
+            { id: 5,  phase: 'Fase 1', title: 'Capitao America: O Primeiro Vingador', year: 2011, type: 'Filme' },
+            { id: 6,  phase: 'Fase 1', title: 'Os Vingadores', year: 2012, type: 'Filme' },
+            { id: 7,  phase: 'Fase 2', title: 'Homem de Ferro 3', year: 2013, type: 'Filme' },
+            { id: 8,  phase: 'Fase 2', title: 'Agents of S.H.I.E.L.D. (1a Temporada)', year: 2013, type: 'Serie' },
+            { id: 9,  phase: 'Fase 2', title: 'Thor: O Mundo Sombrio', year: 2013, type: 'Filme' },
+            { id: 10, phase: 'Fase 2', title: 'Capitao America: O Soldado Invernal', year: 2014, type: 'Filme' },
+            { id: 11, phase: 'Fase 2', title: 'Guardioes da Galaxia', year: 2014, type: 'Filme' },
+            { id: 12, phase: 'Fase 2', title: 'Agent Carter (1a Temporada)', year: 2015, type: 'Serie' },
+            { id: 13, phase: 'Fase 2', title: 'Demolidor (1a Temporada)', year: 2015, type: 'Serie' },
             { id: 14, phase: 'Fase 2', title: 'Vingadores: Era de Ultron', year: 2015, type: 'Filme' },
             { id: 15, phase: 'Fase 2', title: 'Homem-Formiga', year: 2015, type: 'Filme' },
-            { id: 16, phase: 'Fase 2', title: 'Jessica Jones (1ª Temporada)', year: 2015, type: 'Série' },
-            { id: 17, phase: 'Fase 3', title: 'Demolidor (2ª Temporada)', year: 2016, type: 'Série' },
-            { id: 18, phase: 'Fase 3', title: 'Capitão América: Guerra Civil', year: 2016, type: 'Filme' },
-            { id: 19, phase: 'Fase 3', title: 'Luke Cage (1ª Temporada)', year: 2016, type: 'Série' },
+            { id: 16, phase: 'Fase 2', title: 'Jessica Jones (1a Temporada)', year: 2015, type: 'Serie' },
+            { id: 17, phase: 'Fase 3', title: 'Demolidor (2a Temporada)', year: 2016, type: 'Serie' },
+            { id: 18, phase: 'Fase 3', title: 'Capitao America: Guerra Civil', year: 2016, type: 'Filme' },
+            { id: 19, phase: 'Fase 3', title: 'Luke Cage (1a Temporada)', year: 2016, type: 'Serie' },
             { id: 20, phase: 'Fase 3', title: 'Doutor Estranho', year: 2016, type: 'Filme' },
-            { id: 21, phase: 'Fase 3', title: 'Punho de Ferro (1ª Temporada)', year: 2017, type: 'Série' },
-            { id: 22, phase: 'Fase 3', title: 'Guardiões da Galáxia Vol. 2', year: 2017, type: 'Filme' },
+            { id: 21, phase: 'Fase 3', title: 'Punho de Ferro (1a Temporada)', year: 2017, type: 'Serie' },
+            { id: 22, phase: 'Fase 3', title: 'Guardioes da Galaxia Vol. 2', year: 2017, type: 'Filme' },
             { id: 23, phase: 'Fase 3', title: 'Homem-Aranha: De Volta ao Lar', year: 2017, type: 'Filme' },
-            { id: 24, phase: 'Fase 3', title: 'Os Defensores (Minissérie)', year: 2017, type: 'Série' },
-            { id: 25, phase: 'Fase 3', title: 'Inumanos (1ª Temporada)', year: 2017, type: 'Série' },
+            { id: 24, phase: 'Fase 3', title: 'Os Defensores (Minisserie)', year: 2017, type: 'Serie' },
+            { id: 25, phase: 'Fase 3', title: 'Inumanos (1a Temporada)', year: 2017, type: 'Serie' },
             { id: 26, phase: 'Fase 3', title: 'Thor: Ragnarok', year: 2017, type: 'Filme' },
-            { id: 27, phase: 'Fase 3', title: 'O Justiceiro (1ª Temporada)', year: 2017, type: 'Série' },
-            { id: 28, phase: 'Fase 3', title: 'Fugitivos (1ª Temporada)', year: 2017, type: 'Série' },
+            { id: 27, phase: 'Fase 3', title: 'O Justiceiro (1a Temporada)', year: 2017, type: 'Serie' },
+            { id: 28, phase: 'Fase 3', title: 'Fugitivos (1a Temporada)', year: 2017, type: 'Serie' },
             { id: 29, phase: 'Fase 3', title: 'Pantera Negra', year: 2018, type: 'Filme' },
-            { id: 30, phase: 'Fase 3', title: 'Jessica Jones (2ª Temporada)', year: 2018, type: 'Série' },
+            { id: 30, phase: 'Fase 3', title: 'Jessica Jones (2a Temporada)', year: 2018, type: 'Serie' },
             { id: 31, phase: 'Fase 3', title: 'Vingadores: Guerra Infinita', year: 2018, type: 'Filme' },
-            { id: 32, phase: 'Fase 3', title: 'Manto e Adaga (1ª Temporada)', year: 2018, type: 'Série' },
-            { id: 33, phase: 'Fase 3', title: 'Luke Cage (2ª Temporada)', year: 2018, type: 'Série' },
+            { id: 32, phase: 'Fase 3', title: 'Manto e Adaga (1a Temporada)', year: 2018, type: 'Serie' },
+            { id: 33, phase: 'Fase 3', title: 'Luke Cage (2a Temporada)', year: 2018, type: 'Serie' },
             { id: 34, phase: 'Fase 3', title: 'Homem-Formiga e a Vespa', year: 2018, type: 'Filme' },
-            { id: 35, phase: 'Fase 3', title: 'Punho de Ferro (2ª Temporada)', year: 2018, type: 'Série' },
-            { id: 36, phase: 'Fase 3', title: 'Demolidor (3ª Temporada)', year: 2018, type: 'Série' },
-            { id: 37, phase: 'Fase 3', title: 'O Justiceiro (2ª Temporada)', year: 2019, type: 'Série' },
-            { id: 38, phase: 'Fase 3', title: 'Capitã Marvel', year: 2019, type: 'Filme' },
-            { id: 39, phase: 'Fase 3', title: 'Jessica Jones (3ª Temporada)', year: 2019, type: 'Série' },
+            { id: 35, phase: 'Fase 3', title: 'Punho de Ferro (2a Temporada)', year: 2018, type: 'Serie' },
+            { id: 36, phase: 'Fase 3', title: 'Demolidor (3a Temporada)', year: 2018, type: 'Serie' },
+            { id: 37, phase: 'Fase 3', title: 'O Justiceiro (2a Temporada)', year: 2019, type: 'Serie' },
+            { id: 38, phase: 'Fase 3', title: 'Capita Marvel', year: 2019, type: 'Filme' },
+            { id: 39, phase: 'Fase 3', title: 'Jessica Jones (3a Temporada)', year: 2019, type: 'Serie' },
             { id: 40, phase: 'Fase 3', title: 'Vingadores: Ultimato', year: 2019, type: 'Filme' },
             { id: 41, phase: 'Fase 3', title: 'Homem-Aranha: Longe de Casa', year: 2019, type: 'Filme' },
-            { id: 42, phase: 'Fase 4', title: 'WandaVision (Minissérie)', year: 2021, type: 'Série' },
-            { id: 43, phase: 'Fase 4', title: 'Falcão e o Soldado Invernal', year: 2021, type: 'Série' },
-            { id: 44, phase: 'Fase 4', title: 'Loki (1ª Temporada)', year: 2021, type: 'Série' },
-            { id: 45, phase: 'Fase 4', title: 'Viúva Negra', year: 2021, type: 'Filme' },
-            { id: 46, phase: 'Fase 4', title: 'What If...? (1ª Temporada)', year: 2021, type: 'Animação' },
-            { id: 47, phase: 'Fase 4', title: 'Shang-Chi e a Lenda dos Dez Anéis', year: 2021, type: 'Filme' },
+            { id: 42, phase: 'Fase 4', title: 'WandaVision (Minisserie)', year: 2021, type: 'Serie' },
+            { id: 43, phase: 'Fase 4', title: 'Falcao e o Soldado Invernal', year: 2021, type: 'Serie' },
+            { id: 44, phase: 'Fase 4', title: 'Loki (1a Temporada)', year: 2021, type: 'Serie' },
+            { id: 45, phase: 'Fase 4', title: 'Viuva Negra', year: 2021, type: 'Filme' },
+            { id: 46, phase: 'Fase 4', title: 'What If...? (1a Temporada)', year: 2021, type: 'Animacao' },
+            { id: 47, phase: 'Fase 4', title: 'Shang-Chi e a Lenda dos Dez Aneis', year: 2021, type: 'Filme' },
             { id: 48, phase: 'Fase 4', title: 'Eternos', year: 2021, type: 'Filme' },
-            { id: 49, phase: 'Fase 4', title: 'Gavião Arqueiro', year: 2021, type: 'Série' },
+            { id: 49, phase: 'Fase 4', title: 'Gaviao Arqueiro', year: 2021, type: 'Serie' },
             { id: 50, phase: 'Fase 4', title: 'Homem-Aranha: Sem Volta Para Casa', year: 2021, type: 'Filme' },
-            { id: 51, phase: 'Fase 4', title: 'Cavaleiro da Lua', year: 2022, type: 'Série' },
+            { id: 51, phase: 'Fase 4', title: 'Cavaleiro da Lua', year: 2022, type: 'Serie' },
             { id: 52, phase: 'Fase 4', title: 'Doutor Estranho no Multiverso da Loucura', year: 2022, type: 'Filme' },
-            { id: 53, phase: 'Fase 4', title: 'Ms. Marvel', year: 2022, type: 'Série' },
-            { id: 54, phase: 'Fase 4', title: 'Thor: Amor e Trovão', year: 2022, type: 'Filme' },
+            { id: 53, phase: 'Fase 4', title: 'Ms. Marvel', year: 2022, type: 'Serie' },
+            { id: 54, phase: 'Fase 4', title: 'Thor: Amor e Trovao', year: 2022, type: 'Filme' },
             { id: 55, phase: 'Fase 4', title: 'Eu Sou Groot', year: 2022, type: 'Curtas' },
-            { id: 56, phase: 'Fase 4', title: 'Mulher-Hulk: Defensora de Heróis', year: 2022, type: 'Série' },
+            { id: 56, phase: 'Fase 4', title: 'Mulher-Hulk: Defensora de Herois', year: 2022, type: 'Serie' },
             { id: 57, phase: 'Fase 4', title: 'Lobisomem na Noite', year: 2022, type: 'Especial' },
             { id: 58, phase: 'Fase 4', title: 'Pantera Negra: Wakanda Para Sempre', year: 2022, type: 'Filme' },
-            { id: 59, phase: 'Fase 4', title: 'Guardiões da Galáxia: Especial de Festas', year: 2022, type: 'Especial' },
+            { id: 59, phase: 'Fase 4', title: 'Guardioes da Galaxia: Especial de Festas', year: 2022, type: 'Especial' },
             { id: 60, phase: 'Fase 5', title: 'Homem-Formiga e a Vespa: Quantumania', year: 2023, type: 'Filme' },
-            { id: 61, phase: 'Fase 5', title: 'Guardiões da Galáxia Vol. 3', year: 2023, type: 'Filme' },
-            { id: 62, phase: 'Fase 5', title: 'Invasão Secreta', year: 2023, type: 'Série' },
-            { id: 63, phase: 'Fase 5', title: 'Loki (2ª Temporada)', year: 2023, type: 'Série' },
+            { id: 61, phase: 'Fase 5', title: 'Guardioes da Galaxia Vol. 3', year: 2023, type: 'Filme' },
+            { id: 62, phase: 'Fase 5', title: 'Invasao Secreta', year: 2023, type: 'Serie' },
+            { id: 63, phase: 'Fase 5', title: 'Loki (2a Temporada)', year: 2023, type: 'Serie' },
             { id: 64, phase: 'Fase 5', title: 'As Marvels', year: 2023, type: 'Filme' },
-            { id: 65, phase: 'Fase 5', title: 'What If...? (2ª Temporada)', year: 2023, type: 'Animação' },
-            { id: 66, phase: 'Fase 5', title: 'Eco', year: 2024, type: 'Série' },
+            { id: 65, phase: 'Fase 5', title: 'What If...? (2a Temporada)', year: 2023, type: 'Animacao' },
+            { id: 66, phase: 'Fase 5', title: 'Eco', year: 2024, type: 'Serie' },
             { id: 67, phase: 'Fase 5', title: 'Deadpool & Wolverine', year: 2024, type: 'Filme' },
-            { id: 68, phase: 'Fase 5', title: 'Agatha Desde Sempre', year: 2024, type: 'Série' },
-            { id: 69, phase: 'Fase 5', title: 'Capitão América: Admirável Mundo Novo', year: 2025, type: 'Filme' },
-            { id: 70, phase: 'Fase 5', title: 'Demolidor: Renascido', year: 2025, type: 'Série' },
+            { id: 68, phase: 'Fase 5', title: 'Agatha Desde Sempre', year: 2024, type: 'Serie' },
+            { id: 69, phase: 'Fase 5', title: 'Capitao America: Admiravel Mundo Novo', year: 2025, type: 'Filme' },
+            { id: 70, phase: 'Fase 5', title: 'Demolidor: Renascido', year: 2025, type: 'Serie' },
             { id: 71, phase: 'Fase 5', title: 'Thunderbolts*', year: 2025, type: 'Filme' },
-            { id: 72, phase: 'Fase 5', title: 'Coração de Ferro', year: 2025, type: 'Série' },
-            { id: 73, phase: 'Fase 6', title: 'Quarteto Fantástico: Primeiros Passos', year: 2025, type: 'Filme' },
+            { id: 72, phase: 'Fase 5', title: 'Coracao de Ferro', year: 2025, type: 'Serie' },
+            { id: 73, phase: 'Fase 6', title: 'Quarteto Fantastico: Primeiros Passos', year: 2025, type: 'Filme' },
             { id: 74, phase: 'Fase 6', title: 'Vingadores: Doomsday', year: 2026, type: 'Filme' },
             { id: 75, phase: 'Fase 6', title: 'Homem-Aranha 4', year: 2026, type: 'Filme' },
             { id: 76, phase: 'Fase 6', title: 'Vingadores: Guerras Secretas', year: 2027, type: 'Filme' },
         ];
 
+        /* ============================================================
+           ICONES SVG inline
+        ============================================================ */
         const Icons = {
-            Check: () => <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>,
-            Film: () => <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>,
-            TV: () => <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>,
-            Heart: ({ filled }) => <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>,
-            ChevronDown: () => <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>,
-            Menu: () => <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>,
-            Close: () => <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>,
-            User: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>,
-            LogOut: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
-            Google: () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Check:       () => <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>,
+            ChevronDown: () => <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>,
+            Heart:       ({ filled }) => <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>,
+            Close:       () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>,
+            User:        () => <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>,
+            LogOut:      () => <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
+            Google:      () => <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>,
         };
 
+        /* ============================================================
+           MODAL DE AUTENTICACAO (design minimalista mobile-first)
+        ============================================================ */
         function AuthModal({ isOpen, onClose }) {
-            const [isLogin, setIsLogin] = React.useState(true);
-            const [email, setEmail] = React.useState('');
+            const [isLogin,  setIsLogin]  = React.useState(true);
+            const [email,    setEmail]    = React.useState('');
             const [password, setPassword] = React.useState('');
-            const [error, setError] = React.useState('');
-            const [loading, setLoading] = React.useState(false);
+            const [error,    setError]    = React.useState('');
+            const [loading,  setLoading]  = React.useState(false);
 
             if (!isOpen) return null;
 
             const handleAuthError = (err) => {
-                switch(err.code) {
-                    case 'auth/email-already-in-use': return 'Este e-mail já está cadastrado.';
-                    case 'auth/invalid-credential': return 'E-mail ou senha incorretos.';
-                    case 'auth/weak-password': return 'A senha deve ter pelo menos 6 caracteres.';
-                    default: return 'Ocorreu um erro ao autenticar. Tente novamente.';
+                switch (err.code) {
+                    case 'auth/email-already-in-use': return 'Este e-mail ja esta cadastrado.';
+                    case 'auth/invalid-credential':   return 'E-mail ou senha incorretos.';
+                    case 'auth/weak-password':        return 'A senha deve ter pelo menos 6 caracteres.';
+                    default:                          return 'Ocorreu um erro ao autenticar. Tente novamente.';
                 }
             };
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
-                setError('');
-                setLoading(true);
+                setError(''); setLoading(true);
                 try {
                     if (isLogin) {
                         await window.firebaseAPI.signInWithEmailAndPassword(window.firebaseAuth, email, password);
@@ -294,94 +173,66 @@
                         await window.firebaseAPI.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
                     }
                     onClose();
-                } catch (err) {
-                    setError(handleAuthError(err));
-                }
+                } catch (err) { setError(handleAuthError(err)); }
                 setLoading(false);
             };
 
             const handleGoogle = async () => {
-                setError('');
-                setLoading(true);
+                setError(''); setLoading(true);
                 try {
                     await window.firebaseAPI.signInWithPopup(window.firebaseAuth, window.googleProvider);
                     onClose();
-                } catch (err) {
-                    setError(handleAuthError(err));
-                }
+                } catch (err) { setError(handleAuthError(err)); }
                 setLoading(false);
             };
 
             return (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 animate-fade-in">
-                    <div className="glass-panel w-full max-w-md p-8 relative">
-                        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <div className="fixed inset-0 bg-black/75 z-[100] flex items-center justify-center p-4 animate-fade-in">
+                    <div className="w-full max-w-sm bg-[#1a1a1a] border border-neutral-700 rounded-lg p-6 relative">
+                        <button onClick={onClose} className="absolute top-4 right-4 text-neutral-500 hover:text-white transition-colors">
                             <Icons.Close />
                         </button>
-                        
-                        <h2 className="text-2xl font-black uppercase tracking-wider text-white mb-6 text-center">
-                            {isLogin ? 'Acesso Restrito' : 'Novo Registro'}
+                        <h2 className="text-lg font-semibold text-white mb-1">
+                            {isLogin ? 'Entrar na conta' : 'Criar conta'}
                         </h2>
-
+                        <p className="text-xs text-neutral-500 mb-5">
+                            {isLogin ? 'Sincronize seu progresso em qualquer dispositivo.' : 'Crie sua conta para salvar na nuvem.'}
+                        </p>
                         {error && (
-                            <div className="mb-4 p-3 bg-mcuRed/20 border border-mcuRed text-red-200 text-sm rounded-none text-center">
-                                {error}
-                            </div>
+                            <div className="mb-4 p-3 bg-red-950/60 border border-red-800 text-red-300 text-xs rounded-md">{error}</div>
                         )}
-
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">E-mail</label>
-                                <input 
-                                    type="email" 
-                                    value={email} 
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-none px-4 py-3 text-white focus:border-arcBlue focus:outline-none transition-colors"
-                                    required
-                                />
+                                <label className="block text-xs text-neutral-400 mb-1.5">E-mail</label>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full bg-[#111] border border-neutral-700 rounded-md px-3 py-2.5 text-sm text-white focus:border-neutral-500 focus:outline-none transition-colors box-border"
+                                    placeholder="seu@email.com" required />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Senha</label>
-                                <input 
-                                    type="password" 
-                                    value={password} 
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-none px-4 py-3 text-white focus:border-arcBlue focus:outline-none transition-colors"
-                                    required
-                                />
+                                <label className="block text-xs text-neutral-400 mb-1.5">Senha</label>
+                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full bg-[#111] border border-neutral-700 rounded-md px-3 py-2.5 text-sm text-white focus:border-neutral-500 focus:outline-none transition-colors box-border"
+                                    placeholder="..." required />
                             </div>
-                            
-                            <button 
-                                type="submit" 
-                                disabled={loading}
-                                className="w-full mt-2 bg-gradient-to-r from-mcuRed to-red-800 text-white font-bold uppercase tracking-wider py-3 px-4 border border-mcuRed hover:shadow-[0_0_15px_rgba(226,54,54,0.6)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {loading ? 'Processando...' : (isLogin ? 'Autenticar' : 'Cadastrar')}
+                            <button type="submit" disabled={loading} style={{minHeight:'48px'}}
+                                className="w-full mt-1 bg-marvelRed hover:bg-red-700 text-white font-medium text-sm rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                {loading ? 'Aguarde...' : (isLogin ? 'Entrar' : 'Cadastrar')}
                             </button>
                         </form>
-
-                        <div className="flex items-center gap-4 my-6">
-                            <div className="h-px bg-white/10 flex-1"></div>
-                            <span className="text-xs font-scifi text-gray-400">OU</span>
-                            <div className="h-px bg-white/10 flex-1"></div>
+                        <div className="flex items-center gap-3 my-4">
+                            <div className="h-px bg-neutral-800 flex-1"></div>
+                            <span className="text-xs text-neutral-600">ou</span>
+                            <div className="h-px bg-neutral-800 flex-1"></div>
                         </div>
-
-                        <button 
-                            onClick={handleGoogle}
-                            disabled={loading}
-                            className="w-full flex items-center justify-center gap-3 bg-white text-gray-900 font-bold uppercase tracking-wider py-3 px-4 border border-transparent hover:bg-gray-200 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            <Icons.Google />
-                            Continuar com Google
+                        <button onClick={handleGoogle} disabled={loading} style={{minHeight:'48px'}}
+                            className="w-full flex items-center justify-center gap-2.5 bg-white hover:bg-neutral-100 text-neutral-900 font-medium text-sm rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            <Icons.Google /> Continuar com Google
                         </button>
-
-                        <p className="mt-6 text-center text-sm text-gray-400">
-                            {isLogin ? 'Não possui acesso? ' : 'Já possui registro? '}
-                            <button 
-                                onClick={() => { setIsLogin(!isLogin); setError(''); }}
-                                className="text-arcBlue hover:text-white transition-colors uppercase font-bold tracking-wider ml-1"
-                            >
-                                {isLogin ? 'Criar Conta' : 'Entrar'}
+                        <p className="mt-5 text-center text-xs text-neutral-500">
+                            {isLogin ? 'Nao tem uma conta? ' : 'Ja tem uma conta? '}
+                            <button onClick={() => { setIsLogin(!isLogin); setError(''); }}
+                                className="text-neutral-300 hover:text-white underline transition-colors">
+                                {isLogin ? 'Criar conta' : 'Entrar'}
                             </button>
                         </p>
                     </div>
@@ -389,159 +240,114 @@
             );
         }
 
+        /* ============================================================
+           APP PRINCIPAL
+        ============================================================ */
         function App() {
+            /* Estado principal */
             const [watched, setWatched] = React.useState(() => {
-                try {
-                    const saved = localStorage.getItem('mcuWatchedV2');
-                    if (saved) return JSON.parse(saved);
-                } catch (e) {
-                    console.error("Falha ao carregar save", e);
-                }
+                try { const s = localStorage.getItem('mcuWatchedV2'); if (s) return JSON.parse(s); } catch(e) {}
                 return {};
             });
-            const [currentUser, setCurrentUser] = React.useState(null);
+
+            /* Firebase Auth */
+            const [currentUser,     setCurrentUser]     = React.useState(null);
             const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false);
-            const [isLoadingData, setIsLoadingData] = React.useState(false);
+            const [isLoadingData,   setIsLoadingData]   = React.useState(false);
 
-            const [expandedItems, setExpandedItems] = React.useState({});
-
-            const [expandedPhases, setExpandedPhases] = React.useState(() => {
-                const initialState = {};
-                const todasAsFases = ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5', 'Fase 6'];
-                todasAsFases.forEach(p => {
-                    initialState[p] = true;
-                });
-                return initialState;
+            /* UI */
+            const [expandedItems,  setExpandedItems]  = React.useState({});
+            const [expandedPhases, setExpandedPhases] = React.useState({
+                'Fase 1':true,'Fase 2':true,'Fase 3':true,'Fase 4':true,'Fase 5':true,'Fase 6':true
             });
 
-            const [typeFilter, setTypeFilter] = React.useState('Todos');
-            const [selectedPhase, setSelectedPhase] = React.useState('Todas');
+            /* Filtros */
+            const [filters, setFilters] = React.useState({ phase:'Todas', type:'Todos', status:'Todos' });
 
-            const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-
-            // Bloquear scroll quando o menu estiver aberto
+            /* Bloquear scroll quando modal aberto */
             React.useEffect(() => {
-                if (isMobileMenuOpen || isAuthModalOpen) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = 'auto';
-                }
-                return () => {
-                    document.body.style.overflow = 'auto';
-                };
-            }, [isMobileMenuOpen, isAuthModalOpen]);
+                document.body.style.overflow = isAuthModalOpen ? 'hidden' : 'auto';
+                return () => { document.body.style.overflow = 'auto'; };
+            }, [isAuthModalOpen]);
 
-            // Sincronização e Auth via Firebase
+            /* Firebase: auth + Firestore sync */
             React.useEffect(() => {
                 if (!window.firebaseAuth) return;
-
-                const unsubscribeAuth = window.firebaseAPI.onAuthStateChanged(window.firebaseAuth, (user) => {
+                const unsubAuth = window.firebaseAPI.onAuthStateChanged(window.firebaseAuth, (user) => {
                     setCurrentUser(user);
                     if (user) {
                         setIsLoadingData(true);
-                        const userRef = window.firebaseAPI.doc(window.firebaseDb, 'users', user.uid);
-                        
-                        const unsubscribeDb = window.firebaseAPI.onSnapshot(userRef, (docSnap) => {
-                            if (docSnap.exists()) {
-                                setWatched(docSnap.data().watched || {});
-                            } else {
-                                window.firebaseAPI.setDoc(userRef, { watched: watched });
-                            }
+                        const ref = window.firebaseAPI.doc(window.firebaseDb, 'users', user.uid);
+                        const unsubDb = window.firebaseAPI.onSnapshot(ref, (snap) => {
+                            if (snap.exists()) { setWatched(snap.data().watched || {}); }
+                            else { window.firebaseAPI.setDoc(ref, { watched }); }
                             setIsLoadingData(false);
                         });
-                        return () => unsubscribeDb();
+                        return () => unsubDb();
                     } else {
                         setIsLoadingData(false);
-                        try {
-                            const saved = localStorage.getItem('mcuWatchedV2');
-                            if (saved) setWatched(JSON.parse(saved));
-                        } catch(e) {}
+                        try { const s = localStorage.getItem('mcuWatchedV2'); if (s) setWatched(JSON.parse(s)); } catch(e) {}
                     }
                 });
-
-                return () => unsubscribeAuth();
+                return () => unsubAuth();
             }, []);
 
-            const updateWatchedState = (newWatched) => {
-                setWatched(newWatched);
+            /* Persistencia hibrida */
+            const updateWatchedState = (nw) => {
+                setWatched(nw);
                 if (currentUser && window.firebaseDb) {
-                    const userRef = window.firebaseAPI.doc(window.firebaseDb, 'users', currentUser.uid);
-                    window.firebaseAPI.setDoc(userRef, { watched: newWatched }, { merge: true });
+                    window.firebaseAPI.setDoc(
+                        window.firebaseAPI.doc(window.firebaseDb, 'users', currentUser.uid),
+                        { watched: nw }, { merge: true }
+                    );
                 } else {
-                    localStorage.setItem('mcuWatchedV2', JSON.stringify(newWatched));
+                    localStorage.setItem('mcuWatchedV2', JSON.stringify(nw));
                 }
             };
 
+            /* Acoes sobre itens */
             const toggleWatch = (id) => {
-                const current = watched[id];
-                let newState;
-                if (current && current.watched) {
-                    newState = { ...watched };
-                    delete newState[id];
-                } else {
+                const cur = watched[id];
+                let nw;
+                if (cur && cur.watched) { nw = {...watched}; delete nw[id]; }
+                else {
                     const today = new Date().toISOString().split('T')[0];
-                    newState = { ...watched, [id]: { watched: true, rating: 0, date: today, notes: '', favorite: false } };
+                    nw = {...watched, [id]: { watched:true, rating:0, date:today, notes:'', favorite:false }};
                 }
-                updateWatchedState(newState);
+                updateWatchedState(nw);
             };
 
-            const toggleExpand = (id) => {
-                setExpandedItems(prev => ({
-                    ...prev,
-                    [id]: !prev[id]
-                }));
-            };
+            const toggleExpand  = (id) => setExpandedItems(p => ({...p, [id]: !p[id]}));
+            const updateDetails = (id, field, value) => updateWatchedState({...watched, [id]: {...watched[id], [field]: value}});
 
-            const togglePhaseExpand = (phaseName) => {
-                setExpandedPhases(prev => ({
-                    ...prev,
-                    [phaseName]: !prev[phaseName]
-                }));
-            };
-
-            const updateDetails = (id, field, value) => {
-                const newState = {
-                    ...watched,
-                    [id]: { ...watched[id], [field]: value }
-                };
-                updateWatchedState(newState);
-            };
-
+            /* Acoes por fase */
             const selectAllPhase = (items) => {
                 const today = new Date().toISOString().split('T')[0];
-                const newState = { ...watched };
-                items.forEach(item => {
-                    if (!newState[item.id] || !newState[item.id].watched) {
-                        newState[item.id] = { ...newState[item.id], watched: true, rating: 0, date: today, notes: '', favorite: false };
-                    }
+                const nw = {...watched};
+                items.forEach(i => {
+                    if (!nw[i.id] || !nw[i.id].watched)
+                        nw[i.id] = {...nw[i.id], watched:true, rating:0, date:today, notes:'', favorite:false};
                 });
-                updateWatchedState(newState);
+                updateWatchedState(nw);
             };
 
             const deselectAllPhase = (items) => {
-                const newState = { ...watched };
-                items.forEach(item => {
-                    if (newState[item.id]) {
-                        delete newState[item.id];
-                    }
-                });
-                updateWatchedState(newState);
+                const nw = {...watched};
+                items.forEach(i => { if (nw[i.id]) delete nw[i.id]; });
+                updateWatchedState(nw);
             };
 
-            const handlePhaseClick = (phaseName) => {
-                setSelectedPhase(phaseName);
-                setIsMobileMenuOpen(false);
-
-                if (phaseName !== 'Todas') {
-                    const el = document.getElementById(`section-${phaseName.replace(/\s+/g, '-').toLowerCase()}`);
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            };
+            /* Opcoes de filtro */
+            const phaseOptions  = ['Todas','Fase 1','Fase 2','Fase 3','Fase 4','Fase 5','Fase 6'];
+            const typeOptions   = ['Todos','Filme','Serie','Animacao','Especial','Curtas'];
+            const statusOptions = ['Todos','Assistidos','Nao assistidos'];
 
             const filteredList = mcuList.filter(item => {
-                if (typeFilter === 'Filmes' && item.type !== 'Filme') return false;
-                if (typeFilter === 'Séries' && item.type === 'Filme') return false;
-                if (selectedPhase !== 'Todas' && item.phase !== selectedPhase) return false;
+                const iw = !!(watched[item.id] && watched[item.id].watched);
+                if (filters.phase  !== 'Todas'          && item.phase !== filters.phase) return false;
+                if (filters.type   !== 'Todos'           && item.type  !== filters.type)  return false;
+                if (filters.status === 'Assistidos'      && !iw)                          return false;
+                if (filters.status === 'Nao assistidos'  && iw)                           return false;
                 return true;
             });
 
@@ -551,409 +357,235 @@
                 return acc;
             }, {});
 
-            const total = mcuList.length;
-            const watchedCount = mcuList.filter(item => watched[item.id]?.watched).length;
-            const progress = total === 0 ? 0 : Math.round((watchedCount / total) * 100);
+            const total        = mcuList.length;
+            const watchedCount = mcuList.filter(i => watched[i.id] && watched[i.id].watched).length;
+            const progress     = total === 0 ? 0 : Math.round((watchedCount / total) * 100);
 
-            const allPhasesList = ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5', 'Fase 6'];
+            /* Sub-componente: grupo de pills de filtro */
+            const FilterGroup = ({ label, options, filterKey }) => (
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                    <span className="text-[10px] text-neutral-600 uppercase tracking-widest whitespace-nowrap">{label}</span>
+                    <div className="flex flex-wrap gap-1.5">
+                        {options.map(opt => (
+                            <button key={opt}
+                                onClick={() => setFilters(p => ({...p, [filterKey]: opt}))}
+                                className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+                                    filters[filterKey] === opt
+                                        ? 'bg-neutral-100 text-neutral-900 border-neutral-100 font-medium'
+                                        : 'bg-pill border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600'
+                                }`}>
+                                {opt}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
 
+            /* ====================== RENDER ========================= */
             return (
                 <>
                     <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
-                    
+
                     {isLoadingData && currentUser && (
-                        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-arcBlue/20 border border-arcBlue text-arcBlue px-6 py-2 z-[60] text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(0,210,255,0.3)] animate-pulse backdrop-blur-md">
-                            Sincronizando com a base de dados...
+                        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#1a1a1a] border border-neutral-700 text-neutral-300 text-xs px-4 py-2 rounded-full shadow-lg">
+                            Sincronizando...
                         </div>
                     )}
 
-                    {/* Botão Flutuante */}
-                    <button
-                        onClick={() => setIsMobileMenuOpen(prev => !prev)}
-                        className={`fixed bottom-6 right-6 z-[70] lg:hidden bg-[#0c0f17]/95 border p-4 rounded-full shadow-[0_4px_20px_rgba(0,210,255,0.4)] backdrop-blur-md transition-all duration-300
-                            ${isMobileMenuOpen ? 'border-mcuRed text-mcuRed hover:text-white shadow-[0_4px_20px_rgba(226,54,54,0.4)]' : 'border-white/20 text-white hover:text-arcBlue border-arcBlue/50'}
-                        `}
-                        aria-label={isMobileMenuOpen ? "Fechar Menu" : "Abrir Menu"}
-                    >
-                        {isMobileMenuOpen ? <Icons.Close /> : <Icons.Menu />}
-                    </button>
+                    <div className="w-full flex flex-col min-h-screen">
 
-                    {/* Container Principal - REMOVIDO o "animate-fade-in" daqui para não quebrar o layout Fixed no Mobile */}
-                    <div className="w-full px-4 md:px-8 py-6 relative z-10">
+                        {/* HEADER ----------------------------------------- */}
+                        <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-4 border-b border-neutral-800 bg-background sticky top-0 z-40">
+                            <div className="flex items-center gap-3">
+                                <span className="text-xl font-bold tracking-widest text-white">MCU</span>
+                                <span className="text-xs text-neutral-600 hidden sm:block">Checklist</span>
+                            </div>
 
-                        {/* Cabeçalho - ADICIONADO "animate-fade-in" isoladamente */}
-                        <header className="animate-fade-in mb-8 text-center glass-panel pt-8 pb-10 px-4 rounded-none relative overflow-hidden w-full border-b border-white/10">
-                            
-                            {/* LOGIN DESKTOP */}
-                            <div className="hidden lg:flex absolute top-6 right-8 z-30">
+                            {/* Progress bar (desktop) */}
+                            <div className="hidden md:flex items-center gap-3 flex-1 max-w-xs mx-4">
+                                <div className="flex-1 h-1 bg-neutral-800 rounded-full overflow-hidden">
+                                    <div className="h-full bg-marvelRed rounded-full transition-all duration-700" style={{width:`${progress}%`}}></div>
+                                </div>
+                                <span className="text-xs text-neutral-500 whitespace-nowrap">{watchedCount}/{total}</span>
+                            </div>
+
+                            {/* Auth */}
+                            <div className="flex items-center gap-3">
                                 {currentUser ? (
-                                    <div className="flex items-center gap-4 bg-black/40 px-4 py-2 border border-white/10 shadow-[0_4px_15px_rgba(0,0,0,0.3)] backdrop-blur-md">
-                                        <div className="flex items-center gap-3">
-                                            {currentUser.photoURL ? (
-                                                <img src={currentUser.photoURL} alt="User" className="w-8 h-8 rounded-full border border-arcBlue" />
-                                            ) : (
-                                                <div className="w-8 h-8 rounded-full bg-arcBlue/20 text-arcBlue flex items-center justify-center border border-arcBlue">
-                                                    <Icons.User />
-                                                </div>
-                                            )}
-                                            <span className="text-sm font-bold text-white tracking-wider">{currentUser.displayName || currentUser.email.split('@')[0]}</span>
-                                        </div>
-                                        <div className="w-px h-6 bg-white/20"></div>
-                                        <button 
-                                            onClick={() => window.firebaseAPI.signOut(window.firebaseAuth)}
-                                            className="text-gray-400 hover:text-mcuRed flex items-center gap-2 text-xs font-bold uppercase tracking-widest transition-colors"
-                                        >
-                                            Sair <Icons.LogOut />
+                                    <div className="flex items-center gap-3">
+                                        {currentUser.photoURL
+                                            ? <img src={currentUser.photoURL} alt="User" className="w-7 h-7 rounded-full" />
+                                            : <div className="w-7 h-7 rounded-full bg-neutral-700 flex items-center justify-center text-neutral-300"><Icons.User /></div>
+                                        }
+                                        <span className="text-xs text-neutral-400 hidden sm:block">
+                                            {currentUser.displayName || currentUser.email.split('@')[0]}
+                                        </span>
+                                        <button onClick={() => window.firebaseAPI.signOut(window.firebaseAuth)}
+                                            className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-white transition-colors">
+                                            <Icons.LogOut /> Sair
                                         </button>
                                     </div>
                                 ) : (
-                                    <button 
-                                        onClick={() => setIsAuthModalOpen(true)}
-                                        className="flex items-center gap-2 bg-gradient-to-r from-arcBlue to-blue-700 hover:shadow-[0_0_15px_rgba(0,210,255,0.4)] text-white px-5 py-2.5 text-xs font-black uppercase tracking-widest transition-all border border-arcBlue"
-                                    >
-                                        <Icons.User /> Sincronizar Arquivos
+                                    <button onClick={() => setIsAuthModalOpen(true)} style={{minHeight:'36px'}}
+                                        className="flex items-center gap-2 px-4 text-xs font-medium bg-neutral-800 hover:bg-neutral-700 text-white rounded-md border border-neutral-700 transition-colors">
+                                        <Icons.User /> Entrar
                                     </button>
                                 )}
                             </div>
-
-                            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-mcuRed to-transparent"></div>
-                            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-500 drop-shadow-lg mt-4 lg:mt-0">
-                                MCU <span className="text-transparent bg-clip-text bg-gradient-to-r from-mcuRed to-red-800 text-glow-red">Checklist</span>
-                            </h1>
-
-                            <div className="w-full max-w-4xl mx-auto mt-8 px-2">
-                                <div className="flex justify-between items-end mb-2 px-1">
-                                    <span className="text-xs font-bold tracking-widest text-arcBlue uppercase">{progress}% Sincronizado</span>
-                                    <span className="text-xs text-gray-400 font-scifi tracking-widest uppercase">{watchedCount} / {total} Registros</span>
-                                </div>
-                                <div className="h-[2px] w-full bg-white/5 rounded-none overflow-hidden relative">
-                                    <div className="absolute inset-0 bg-arcBlue blur-md opacity-30 animate-pulse-glow" style={{ width: `${progress}%` }}></div>
-                                    <div
-                                        className="h-full rounded-none bg-gradient-to-r from-mcuRed via-purple-500 to-arcBlue relative z-10 transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(0,210,255,0.8)]"
-                                        style={{ width: `${progress}%` }}
-                                    >
-                                        <div className="absolute top-0 right-0 bottom-0 w-4 bg-white/40 blur-[2px]"></div>
-                                    </div>
-                                </div>
-                            </div>
                         </header>
 
-                        {/* Backdrop - AGORA funciona perfeitamente pois não sofre interferência do transform no parent */}
-                        <div
-                            className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 lg:hidden ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        ></div>
+                        {/* FILTROS ----------------------------------------- */}
+                        <div className="px-6 py-4 border-b border-neutral-800 bg-background flex flex-col gap-3 lg:flex-row lg:gap-8 lg:items-center">
+                            <FilterGroup label="Fase"   options={phaseOptions}  filterKey="phase"  />
+                            <FilterGroup label="Tipo"   options={typeOptions}   filterKey="type"   />
+                            <FilterGroup label="Status" options={statusOptions} filterKey="status" />
+                            {/* Progress bar mobile */}
+                            <div className="flex md:hidden items-center gap-3 ml-auto">
+                                <div className="w-28 h-1 bg-neutral-800 rounded-full overflow-hidden">
+                                    <div className="h-full bg-marvelRed rounded-full transition-all duration-700" style={{width:`${progress}%`}}></div>
+                                </div>
+                                <span className="text-[10px] text-neutral-500">{progress}%</span>
+                            </div>
+                        </div>
 
-                        <div className="flex flex-col lg:flex-row gap-8 items-start w-full relative">
+                        {/* CONTEUDO --------------------------------------- */}
+                        <main className="flex-1 px-6 py-8 w-full max-w-7xl mx-auto">
+                            {Object.keys(phases).length === 0 ? (
+                                <div className="text-center text-neutral-600 text-sm py-16">
+                                    Nenhum titulo encontrado com os filtros selecionados.
+                                </div>
+                            ) : (
+                                Object.entries(phases).map(([phase, items]) => {
+                                    const isPhaseComplete = items.every(i => watched[i.id] && watched[i.id].watched) && items.length > 0;
+                                    const allWatched      = items.every(i => watched[i.id] && watched[i.id].watched);
+                                    const isExpPhase      = !!expandedPhases[phase];
 
-                            {/* Menu Lateral - ADICIONADO lg:animate-fade-in (Apenas animação no desktop para não quebrar o layout) */}
-                            <aside className={`
-                                lg:animate-fade-in fixed top-0 left-0 z-50 w-[80%] sm:w-80 h-[100dvh] overflow-y-auto bg-[#03050a] border-r border-white/10 shadow-2xl
-                                transform transition-transform duration-300 ease-in-out
-                                ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
-                                lg:relative lg:translate-x-0 lg:w-80 lg:h-auto lg:overflow-visible lg:bg-transparent lg:border-none lg:shadow-none lg:z-20 flex-shrink-0 lg:sticky lg:top-8
-                            `}>
-
-                                <div className="glass-panel p-6 rounded-none lg:border border-white/5 flex flex-col gap-6 mx-4 lg:mx-0 mt-8 mb-6 lg:mt-0 lg:mb-0">
-                                    
-                                    {/* USER INFO MOBILE */}
-                                    <div className="lg:hidden flex flex-col gap-4 border-b border-white/10 pb-6">
-                                        {currentUser ? (
-                                            <div className="flex flex-col gap-3">
-                                                <div className="flex items-center gap-3">
-                                                    {currentUser.photoURL ? (
-                                                        <img src={currentUser.photoURL} alt="User" className="w-10 h-10 rounded-full border border-arcBlue" />
-                                                    ) : (
-                                                        <div className="w-10 h-10 rounded-full bg-arcBlue/20 text-arcBlue flex items-center justify-center border border-arcBlue">
-                                                            <Icons.User />
-                                                        </div>
+                                    return (
+                                        <section key={phase} className="mb-10">
+                                            {/* Cabecalho da fase */}
+                                            <div className={`flex items-center justify-between mb-4 pb-3 border-b ${isPhaseComplete ? 'border-yellow-800/50' : 'border-neutral-800'}`}>
+                                                <button
+                                                    onClick={() => setExpandedPhases(p => ({...p, [phase]: !p[phase]}))}
+                                                    className="flex items-center gap-3 group text-left">
+                                                    <span className={`w-0.5 h-5 rounded-full ${isPhaseComplete ? 'bg-yellow-500' : 'bg-marvelRed'}`}></span>
+                                                    <span className={`font-semibold text-sm tracking-wide ${isPhaseComplete ? 'text-yellow-500' : 'text-white'}`}>
+                                                        {phase}
+                                                    </span>
+                                                    {isPhaseComplete && (
+                                                        <span className="text-[10px] bg-yellow-900/30 border border-yellow-700/40 text-yellow-600 px-2 py-0.5 rounded-full">
+                                                            Completa
+                                                        </span>
                                                     )}
-                                                    <div className="flex flex-col">
-                                                        <span className="text-sm font-bold text-white tracking-wider">{currentUser.displayName || currentUser.email.split('@')[0]}</span>
-                                                        <span className="text-xs text-arcBlue font-scifi uppercase">Agente Verificado</span>
-                                                    </div>
-                                                </div>
-                                                <button 
-                                                    onClick={() => { window.firebaseAPI.signOut(window.firebaseAuth); setIsMobileMenuOpen(false); }}
-                                                    className="w-full py-2.5 bg-mcuRed/10 border border-mcuRed text-mcuRed hover:bg-mcuRed hover:text-white transition-colors text-xs font-bold uppercase tracking-widest flex justify-center items-center gap-2"
-                                                >
-                                                    <Icons.LogOut /> Desconectar
+                                                    <span className="text-xs text-neutral-600">
+                                                        {items.filter(i => watched[i.id] && watched[i.id].watched).length}/{items.length}
+                                                    </span>
+                                                    <span className={`text-neutral-600 transition-transform duration-300 ${isExpPhase ? 'rotate-180' : ''}`}>
+                                                        <Icons.ChevronDown />
+                                                    </span>
+                                                </button>
+
+                                                {/* Toggle marcar/desmarcar tudo */}
+                                                <button
+                                                    onClick={() => allWatched ? deselectAllPhase(items) : selectAllPhase(items)}
+                                                    className="text-[10px] text-neutral-500 hover:text-white border border-neutral-800 hover:border-neutral-600 px-3 py-1 rounded-full transition-colors">
+                                                    {allWatched ? 'Desmarcar tudo' : 'Marcar tudo'}
                                                 </button>
                                             </div>
-                                        ) : (
-                                            <button 
-                                                onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }}
-                                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-arcBlue to-blue-700 text-white py-3 text-xs font-black uppercase tracking-widest border border-arcBlue"
-                                            >
-                                                <Icons.User /> Entrar / Registrar
-                                            </button>
-                                        )}
-                                    </div>
 
-                                    <div>
-                                        <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">FILTRAR POR MÍDIA</h3>
-                                        <div className="flex flex-row flex-wrap lg:flex-nowrap items-center gap-2.5">
-                                            {['Todos', 'Filmes', 'Séries'].map(f => (
-                                                <button
-                                                    key={f}
-                                                    onClick={() => {
-                                                        setTypeFilter(f);
-                                                        setIsMobileMenuOpen(false);
-                                                    }}
-                                                    className={`px-5 py-2 text-sm font-semibold tracking-wide transition-all duration-200 rounded-2xl border ${typeFilter === f
-                                                        ? 'bg-arcBlue/10 border-arcBlue text-arcBlue shadow-[0_0_12px_rgba(0,210,255,0.3)]'
-                                                        : 'bg-[#0c0f17] border-transparent text-gray-300 hover:text-white hover:bg-white/10'
-                                                        }`}
-                                                >
-                                                    {f}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
+                                            {/* Grid de cards */}
+                                            <div className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpPhase ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                                                <div className="overflow-hidden">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                                                        {items.map(item => {
+                                                            const itemData  = watched[item.id] || {};
+                                                            const isWatched = !!itemData.watched;
+                                                            const isExpItem = !!expandedItems[item.id];
 
-                                    <div className="w-full h-px bg-white/5"></div>
+                                                            return (
+                                                                <div key={item.id}
+                                                                    className={`bg-card border rounded-lg overflow-hidden transition-colors ${isWatched ? 'border-neutral-700' : 'border-neutral-800 hover:border-neutral-700'}`}>
 
-                                    <div>
-                                        <h3 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Linha do Tempo</h3>
-                                        <div className="flex flex-col gap-2 pb-24 lg:pb-0">
-                                            <button
-                                                onClick={() => handlePhaseClick('Todas')}
-                                                className={`w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border text-left
-                                            ${selectedPhase === 'Todas'
-                                                        ? 'bg-mcuRed/20 border-mcuRed text-white shadow-[0_0_12px_rgba(226,54,54,0.4)]'
-                                                        : 'bg-black/30 border-white/5 text-gray-400 hover:text-white hover:border-white/20'
-                                                    }`}
-                                            >
-                                                Todas as Fases
-                                            </button>
-                                            {allPhasesList.map((p) => {
-                                                const phaseItems = mcuList.filter(i => i.phase === p);
-                                                const phaseWatched = phaseItems.filter(i => watched[i.id]?.watched).length;
-                                                const isComplete = phaseWatched === phaseItems.length && phaseItems.length > 0;
+                                                                    {/* Linha principal do card */}
+                                                                    <div onClick={() => toggleWatch(item.id)}
+                                                                        className="flex items-center gap-3 p-4 cursor-pointer select-none">
 
-                                                return (
-                                                    <button
-                                                        key={p}
-                                                        onClick={() => handlePhaseClick(p)}
-                                                        className={`w-full py-2.5 px-4 rounded-none text-xs font-bold uppercase tracking-wider transition-all duration-300 border flex justify-between items-center
-                                                    ${selectedPhase === p
-                                                                ? 'bg-arcBlue/20 border-arcBlue text-arcBlue shadow-[0_0_12px_rgba(0,210,255,0.4)]'
-                                                                : isComplete
-                                                                    ? 'bg-infinityGold/10 border-infinityGold/40 text-infinityGold hover:border-infinityGold'
-                                                                    : 'bg-black/30 border-white/5 text-gray-400 hover:text-white hover:border-white/20'
-                                                            }`}
-                                                    >
-                                                        <span>{p}</span>
-                                                        <span className="text-[11px] opacity-70 font-scifi">({phaseWatched}/{phaseItems.length})</span>
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </aside>
-
-                            {/* Conteúdo Principal - ADICIONADO "animate-fade-in" isoladamente */}
-                            <main className="animate-fade-in flex-1 w-full space-y-10">
-                                {Object.keys(phases).length === 0 ? (
-                                    <div className="text-center py-12 glass-panel rounded-none border border-white/5 w-full">
-                                        <p className="text-gray-400 font-scifi tracking-wider text-lg">Nenhum título encontrado com os filtros aplicados.</p>
-                                    </div>
-                                ) : (
-                                    Object.entries(phases).map(([phase, items], phaseIndex) => {
-                                        const isPhaseComplete = items.every(item => watched[item.id]?.watched) && items.length > 0;
-                                        const sectionId = `section-${phase.replace(/\s+/g, '-').toLowerCase()}`;
-
-                                        return (
-                                            <section
-                                                key={phase}
-                                                id={sectionId}
-                                                className={`w-full p-6 md:p-8 rounded-none border border-white/5 transition-all duration-500 slide-up scroll-mt-6
-                                            ${isPhaseComplete ? 'phase-complete bg-gray-900/40 glass-panel' : 'glass-panel'}
-                                        `}
-                                                style={{ animationDelay: `${phaseIndex * 0.05}s` }}
-                                            >
-                                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 border-b border-white/5 pb-4 gap-4">
-                                                    <div
-                                                        onClick={() => togglePhaseExpand(phase)}
-                                                        className="flex items-center gap-4 cursor-pointer group w-full sm:w-auto select-none"
-                                                    >
-                                                        <h2 className={`text-2xl md:text-3xl font-black uppercase tracking-wider flex items-center gap-4 transition-colors duration-300
-                                                    ${isPhaseComplete ? 'text-transparent bg-clip-text bg-gradient-to-r from-infinityGold to-infinityPurple text-glow' : 'text-white group-hover:text-mcuRed'}
-                                                `}>
-                                                            <span className={`w-2 h-8 rounded-none inline-block ${isPhaseComplete ? 'bg-gradient-to-b from-infinityGold to-infinityPurple shadow-[0_0_10px_#ffd700]' : 'bg-mcuRed'}`}></span>
-                                                            {phase}
-
-                                                            {isPhaseComplete && (
-                                                                <span className="px-3 py-1 bg-infinityGold/20 border border-infinityGold/50 text-infinityGold text-xs font-bold rounded-none uppercase tracking-widest animate-pulse ml-2">
-                                                                    Concluída
-                                                                </span>
-                                                            )}
-                                                        </h2>
-
-                                                        <button
-                                                            className={`flex-shrink-0 text-gray-400 group-hover:text-white transition-all duration-300 transform
-                                                        ${expandedPhases[phase] ? 'rotate-180 text-arcBlue drop-shadow-[0_0_8px_rgba(0,210,255,0.6)]' : ''}
-                                                    `}
-                                                        >
-                                                            <Icons.ChevronDown />
-                                                        </button>
-                                                    </div>
-
-                                                    <div className="flex items-center gap-2 w-full sm:w-auto relative z-10">
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                selectAllPhase(items);
-                                                            }}
-                                                            className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-arcBlue text-gray-300 hover:text-arcBlue text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
-                                                        >
-                                                            Marcar Tudo
-                                                        </button>
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                deselectAllPhase(items);
-                                                            }}
-                                                            className="flex-1 sm:flex-none px-4 py-2 bg-black/40 border border-white/10 hover:border-mcuRed text-gray-300 hover:text-mcuRed text-xs font-bold uppercase tracking-wider rounded-none transition-all duration-300"
-                                                        >
-                                                            Desmarcar
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div className={`grid transition-[grid-template-rows,opacity,margin] duration-500 ease-in-out w-full
-                                            ${expandedPhases[phase] ? 'grid-rows-[1fr] opacity-100 mt-6' : 'grid-rows-[0fr] opacity-0 mt-0'}
-                                        `}>
-                                                    <div className="overflow-hidden min-h-0">
-                                                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 gap-4 items-start pt-1">
-                                                            {items.map(item => {
-                                                                const itemData = watched[item.id] || {};
-                                                                const isWatched = !!itemData.watched;
-                                                                const isExpanded = !!expandedItems[item.id];
-                                                                const isFilme = item.type === 'Filme';
-
-                                                                return (
-                                                                    <div
-                                                                        key={item.id}
-                                                                        className={`glass-card flex flex-col p-5 rounded-none relative overflow-hidden group border border-white/5 h-fit
-                                                                    ${isWatched ? 'neon-active' : ''}
-                                                                `}
-                                                                    >
-                                                                        <div className={`absolute -right-10 -top-10 w-32 h-32 bg-arcBlue/10 blur-3xl rounded-none transition-opacity duration-500 ${isWatched ? 'opacity-100' : 'opacity-0'}`}></div>
-
-                                                                        <div
-                                                                            onClick={() => toggleWatch(item.id)}
-                                                                            className="cursor-pointer flex items-start gap-4 relative z-10 w-full"
-                                                                        >
-                                                                            <div
-                                                                                className={`mt-1 flex-shrink-0 w-6 h-6 rounded-none flex items-center justify-center border transition-all duration-300 group-hover:scale-110
-                                                                        ${isWatched
-                                                                                        ? 'bg-arcBlue border-arcBlue text-space shadow-[0_0_10px_rgba(0,210,255,0.8)]'
-                                                                                        : 'border-gray-600 group-hover:border-mcuRed text-transparent'
-                                                                                    }`}
-                                                                            >
-                                                                                <Icons.Check />
-                                                                            </div>
-
-                                                                            <div className="flex-1 pr-2">
-                                                                                <h3 className={`font-bold text-base leading-snug mb-2 transition-colors duration-300
-                                                                            ${isWatched ? 'text-white text-glow-blue' : 'text-gray-200 group-hover:text-mcuRed'}
-                                                                        `}>
-                                                                                    {item.title}
-                                                                                </h3>
-                                                                                <div className="flex flex-wrap gap-2 text-xs font-medium">
-                                                                                    <span className="bg-black/50 text-gray-300 px-2 py-0.5 rounded-none border border-white/5 font-scifi text-xs">
-                                                                                        {item.year}
-                                                                                    </span>
-                                                                                    <span className={`flex items-center px-2 py-0.5 rounded-none border border-white/5 text-xs
-                                                                                ${isFilme ? 'bg-mcuRed/10 text-red-300' : 'bg-blue-900/30 text-blue-300'}
-                                                                            `}>
-                                                                                        {isFilme ? <Icons.Film /> : <Icons.TV />}
-                                                                                        {item.type}
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <button
-                                                                                onClick={(e) => {
-                                                                                    e.stopPropagation();
-                                                                                    toggleExpand(item.id);
-                                                                                }}
-                                                                                className={`flex-shrink-0 p-1 text-gray-400 hover:text-white transition-all duration-300 transform self-start mt-0.5
-                                                                            ${isExpanded ? 'rotate-180 text-arcBlue drop-shadow-[0_0_8px_rgba(0,210,255,0.6)]' : ''}
-                                                                        `}
-                                                                            >
-                                                                                <Icons.ChevronDown />
-                                                                            </button>
+                                                                        {/* Checkbox vermelha */}
+                                                                        <div className={`w-5 h-5 rounded-sm flex-shrink-0 flex items-center justify-center border transition-colors ${isWatched ? 'bg-marvelRed border-marvelRed' : 'border-neutral-600 bg-transparent hover:border-neutral-400'}`}>
+                                                                            {isWatched && <Icons.Check />}
                                                                         </div>
 
-                                                                        <div className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out w-full
-                                                                    ${isExpanded ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0 mt-0'}
-                                                                `}>
-                                                                            <div className="overflow-hidden min-h-0">
-                                                                                <div className="pt-3 border-t border-white/5 flex flex-col gap-3 relative z-10">
-                                                                                    <div className="flex justify-between items-center bg-black/40 p-2 rounded-none border border-white/5">
-                                                                                        <div className="flex gap-1 px-1">
-                                                                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                                                                <button
-                                                                                                    key={star}
-                                                                                                    onClick={() => updateDetails(item.id, 'rating', itemData.rating === star ? 0 : star)}
-                                                                                                    className={`text-xl focus:outline-none transition-all duration-200 hover:scale-110
-                                                                                                ${(itemData.rating || 0) >= star
-                                                                                                            ? 'text-infinityGold drop-shadow-[0_0_8px_rgba(255,215,0,0.8)]'
-                                                                                                            : 'text-gray-700 hover:text-infinityGold/50'
-                                                                                                        }
-                                                                                            `}
-                                                                                                >
-                                                                                                    ★
-                                                                                                </button>
-                                                                                            ))}
-                                                                                        </div>
-                                                                                        <button
-                                                                                            onClick={() => updateDetails(item.id, 'favorite', !itemData.favorite)}
-                                                                                            className={`focus:outline-none p-1.5 rounded-none transition-all duration-300 hover:bg-white/5
-                                                                                        ${itemData.favorite ? 'text-mcuRed drop-shadow-[0_0_8px_rgba(226,54,54,0.8)]' : 'text-gray-600 hover:text-mcuRed/70'}
-                                                                                    `}
-                                                                                        >
-                                                                                            <Icons.Heart filled={itemData.favorite} />
-                                                                                        </button>
-                                                                                    </div>
+                                                                        {/* Textos */}
+                                                                        <div className="flex-1 min-w-0">
+                                                                            <p className={`text-sm font-medium leading-snug truncate transition-colors ${isWatched ? 'text-marvelRed line-through opacity-80' : 'text-neutral-100'}`}>
+                                                                                {item.title}
+                                                                            </p>
+                                                                            <p className={`text-xs mt-0.5 transition-colors ${isWatched ? 'text-neutral-600' : 'text-neutral-500'}`}>
+                                                                                {item.year} · {item.type}
+                                                                            </p>
+                                                                        </div>
 
-                                                                                    <div className="flex flex-col gap-2">
-                                                                                        <div className="relative group">
-                                                                                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-                                                                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                                                                            </div>
-                                                                                            <input
-                                                                                                type="date"
-                                                                                                value={itemData.date || ''}
-                                                                                                onChange={(e) => updateDetails(item.id, 'date', e.target.value)}
-                                                                                                className="w-full bg-black/40 border border-white/5 rounded-none pl-9 pr-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue font-scifi tracking-wider"
-                                                                                            />
-                                                                                        </div>
-                                                                                        <textarea
-                                                                                            value={itemData.notes || ''}
-                                                                                            onChange={(e) => updateDetails(item.id, 'notes', e.target.value)}
-                                                                                            placeholder="Adicionar anotações multiversais..."
-                                                                                            className="w-full bg-black/40 border border-white/5 rounded-none px-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-arcBlue resize-none h-14 placeholder-gray-600"
-                                                                                        ></textarea>
+                                                                        {/* Botao expandir */}
+                                                                        <button
+                                                                            onClick={(e) => { e.stopPropagation(); toggleExpand(item.id); }}
+                                                                            className={`flex-shrink-0 p-1 text-neutral-600 hover:text-neutral-300 transition-all duration-200 ${isExpItem ? 'rotate-180 text-neutral-300' : ''}`}>
+                                                                            <Icons.ChevronDown />
+                                                                        </button>
+                                                                    </div>
+
+                                                                    {/* Painel expandido: rating, favorito, data, notas */}
+                                                                    <div className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpItem ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                                                                        <div className="overflow-hidden">
+                                                                            <div className="px-4 pb-4 pt-2 border-t border-neutral-800 flex flex-col gap-3 bg-[#161616]">
+                                                                                {/* Rating + Favorito */}
+                                                                                <div className="flex items-center justify-between">
+                                                                                    <div className="flex gap-0.5">
+                                                                                        {[1,2,3,4,5].map(star => (
+                                                                                            <button key={star}
+                                                                                                onClick={() => updateDetails(item.id, 'rating', itemData.rating === star ? 0 : star)}
+                                                                                                className={`text-lg leading-none transition-colors ${(itemData.rating||0) >= star ? 'text-yellow-500' : 'text-neutral-700 hover:text-yellow-700'}`}>
+                                                                                                ★
+                                                                                            </button>
+                                                                                        ))}
                                                                                     </div>
+                                                                                    <button
+                                                                                        onClick={() => updateDetails(item.id, 'favorite', !itemData.favorite)}
+                                                                                        className={`p-1 transition-colors ${itemData.favorite ? 'text-marvelRed' : 'text-neutral-700 hover:text-neutral-400'}`}>
+                                                                                        <Icons.Heart filled={itemData.favorite} />
+                                                                                    </button>
                                                                                 </div>
+
+                                                                                {/* Data */}
+                                                                                <input
+                                                                                    type="date"
+                                                                                    value={itemData.date || ''}
+                                                                                    onChange={(e) => updateDetails(item.id, 'date', e.target.value)}
+                                                                                    className="w-full bg-[#111] border border-neutral-800 rounded px-3 py-1.5 text-xs text-neutral-400 focus:outline-none focus:border-neutral-600 transition-colors" />
+
+                                                                                {/* Anotacoes */}
+                                                                                <textarea
+                                                                                    value={itemData.notes || ''}
+                                                                                    onChange={(e) => updateDetails(item.id, 'notes', e.target.value)}
+                                                                                    placeholder="Adicionar anotacoes..."
+                                                                                    rows={2}
+                                                                                    className="w-full bg-[#111] border border-neutral-800 rounded px-3 py-1.5 text-xs text-neutral-400 placeholder-neutral-700 focus:outline-none focus:border-neutral-600 resize-none transition-colors" />
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                );
-                                                            })}
-                                                        </div>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
-                                            </section>
-                                        );
-                                    })
-                                )}
-                            </main>
-                        </div>
+                                            </div>
+                                        </section>
+                                    );
+                                })
+                            )}
+                        </main>
+
+                        <footer className="py-5 text-center text-xs text-neutral-700 border-t border-neutral-800">
+                            {watchedCount} assistidos de {total} titulos · {progress}% completo
+                        </footer>
                     </div>
                 </>
             );
